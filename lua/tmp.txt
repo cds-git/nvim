@@ -1,0 +1,70 @@
+      vim.keymap.set("n", "<leader>fw", builtin.live_grep, { desc = "telescope live grep" })
+      vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "telescope find buffers" })
+      vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "telescope help page" })
+      vim.keymap.set("n", "<leader>ma", builtin.marks, { desc = "telescope find marks" })
+      vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "telescope find oldfiles" })
+      vim.keymap.set("n", "<leader>fz", builtin.current_buffer_fuzzy_find, { desc = "telescope find in current buffer" })
+      vim.keymap.set("n", "<leader>cm", builtin.git_commits, { desc = "telescope git commits" })
+      vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "telescope git status" })
+      vim.keymap.set("n", "<leader>pt", builtin.terms, { desc = "telescope pick hidden term" })
+      vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "telescope find files" })
+      vim.keymap.set(
+        "n",
+        "<leader>fa",
+        "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+        { desc = "telescope find all files" }
+      )
+
+
+
+
+
+
+
+
+return {
+	{
+		"mfussenegger/nvim-lint",
+		config = function()
+			require("lint").setup({
+				linters_by_ft = {
+					markdown = { "vale" },
+					typescript = { "eslint_d" },
+					javascript = { "eslint_d" },
+				},
+			})
+		end,
+	},
+}
+
+
+
+
+
+
+        ensure_installed = { 
+          -- Basic
+          "lua",
+          "vim",
+          "regex",
+          "bash",
+          -- Text
+          "html",
+          "css",
+          "scss",
+          "json",
+          "xml",
+          "yaml",
+          "markdown",
+          "markdown_inline",
+          -- High level
+          "javascript",
+          "typescript",
+          "angular",
+          -- Mid level
+          "c_sharp",
+          "java",
+          -- Low level
+          "c",
+          "go"
+        },
