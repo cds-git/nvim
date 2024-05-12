@@ -9,6 +9,7 @@ return {
 				javascript = { "eslint_d", "prettierd" },
 				typescript = { "eslint_d", "prettierd" },
 				angular = { "prettierd" },
+				yaml = { "prettierd" },
 				json = { "prettierd" },
 				html = { "prettierd" },
 				scss = { "prettierd" },
@@ -25,7 +26,7 @@ return {
 
 			vim.keymap.set("n", "<leader>fm", function()
 				conform.format({ async = true, lsp_fallback = true })
-			end, { desc = "format files" })
+			end, { desc = "Format file" })
 		end,
 	},
 }
