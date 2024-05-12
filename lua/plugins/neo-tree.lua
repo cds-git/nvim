@@ -9,8 +9,13 @@ return {
 			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
 		},
 		config = function()
-			vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem reveal left<CR>", {})
-			vim.keymap.set("n", "<C-n>", "<cmd>Neotree toggle<CR>", {})
+			vim.keymap.set(
+				"n",
+				"<leader>e",
+				"<cmd>Neotree filesystem reveal left<CR>",
+				{ desc = "Go to current buffer in NeoTree explorer" }
+			)
+			vim.keymap.set("n", "<C-n>", "<cmd>Neotree toggle<CR>", { desc = "Toggle NeoTree explorer" })
 		end,
 	},
 }
