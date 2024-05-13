@@ -1,8 +1,8 @@
 Add and setup the following packages
 * neotest
-* dap-ui
-* oil
 * some terminal
+* buffer manager
+* oil
 
-- Look in NvChad for keybinding and things that is missing
+- Look for missing keykinds
 - Fix lualine to not split in middle for other windows

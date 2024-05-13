@@ -42,6 +42,7 @@ return {
 				"stylua", -- lua formatter
 				"prettierd", -- js/ts formatter
 				"eslint_d", -- js/ts linter
+				"netcoredbg", -- .net debug adaptor
 				"shfmt", -- bash formatter
 				"vale", -- markdown formatter
 			},
