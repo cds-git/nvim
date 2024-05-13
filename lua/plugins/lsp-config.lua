@@ -149,10 +149,35 @@ return {
 				})
 			end,
 			["angularls"] = function()
+				local mason_packages = vim.fn.stdpath("data") .. "/mason/packages"
+				local angular_language_server_path = mason_packages
+					.. "/angular-language-server/node_modules/.bin/ngserver"
+				local typescript_language_server_path = mason_packages
+					.. "/typescript-language-server/node_modules/.bin/tsserver"
+				local node_modules_global_path = "./node_modules"
+
+				local angular_cmd = {
+					angular_language_server_path,
+					"--stdio",
+					"--tsProbeLocations",
+					typescript_language_server_path,
+					"--ngProbeLocations",
+					node_modules_global_path,
+					"--includeCompletionsWithSnippetText",
+					"--includeAutomaticOptionalChainCompletions",
+				}
+
 				lspconfig.angularls.setup({
 					capabilities = capabilities,
-					filetypes = { "angular", "html", "typescript", "typescriptreact" },
-					root_dir = lspconfig.util.root_pattern("angular.json", "project.json"),
+					cmd = angular_cmd,
+					on_new_config = function(new_config, _)
+						new_config.cmd = angular_cmd
+					end,
+					filetypes = { "angular", "typescript", "html", "typescriptreact", "typescript.tsx" },
+					-- root_dir = lspconfig.util.root_pattern("angular.json", "project.json"),
+					root_dir = function()
+						return vim.fn.getcwd()
+					end,
 				})
 			end,
 			["lua_ls"] = function()
