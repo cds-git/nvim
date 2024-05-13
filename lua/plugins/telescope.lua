@@ -10,6 +10,17 @@ return {
 			vim.keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "Find string under cursor in cwd" })
 			vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Fuzzy find recent files" })
 			vim.keymap.set("n", "<leader>lb", builtin.buffers, { desc = "List open buffers" })
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help page" })
+			vim.keymap.set("n", "<leader>ma", builtin.marks, { desc = "Telescope find marks" })
+			vim.keymap.set(
+				"n",
+				"<leader>fz",
+				builtin.current_buffer_fuzzy_find,
+				{ desc = "Fuzzy find in current buffer" }
+			)
+			vim.keymap.set("n", "<leader>fa", function()
+				builtin.find_files({ follow = true, no_ignore = true, hidden = true })
+			end, { desc = "Fuzzy find ALL files in cwd" })
 		end,
 	},
 	{
