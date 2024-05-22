@@ -5,6 +5,7 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
+		{ "Hoffs/omnisharp-extended-lsp.nvim", lazy = true },
 	},
 	config = function()
 		-- import lspconfig plugin
@@ -87,6 +88,14 @@ return {
 				lspconfig.omnisharp.setup({
 					capabilities = capabilities,
 					cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+					on_attach = function(client, bufnr)
+						vim.keymap.set(
+							"n",
+							"gd",
+							require("omnisharp_extended").telescope_lsp_definition,
+							{ desc = "Show LSP definitions OmniSharp", remap = true, buffer = bufnr }
+						)
+					end,
 					-- Enables support for reading code style, naming convention and analyzer
 					-- settings from .editorconfig.
 					enable_editorconfig_support = true,
