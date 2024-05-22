@@ -1,5 +1,4 @@
 Add and setup the following packages
-* neotest
 * some terminal
 * buffer manager
 * oil

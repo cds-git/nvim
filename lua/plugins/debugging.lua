@@ -70,14 +70,14 @@ return {
 				request = "attach",
 				processId = require("dap.utils").pick_process,
 			},
-			{
-				type = "coreclr",
-				name = "Launch file",
-				request = "launch",
-				program = function()
-					return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/", "file")
-				end,
-			},
+			-- {
+			-- 	type = "coreclr",
+			-- 	name = "Launch file",
+			-- 	request = "launch",
+			-- 	program = function()
+			-- 		return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/", "file")
+			-- 	end,
+			-- },
 		}
 		-- end
 	end,
