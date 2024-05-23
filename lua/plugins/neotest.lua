@@ -10,7 +10,7 @@ return {
 	config = function()
 		require("neotest").setup({
 			discovery = {
-				enabled = false,
+				enabled = true,
 				concurrent = 0,
 			},
 			icons = {
