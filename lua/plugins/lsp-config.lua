@@ -33,30 +33,30 @@ return {
 
 				local telescope = require("telescope.builtin")
 
-				map("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
-				map("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic")
-
-				-- common
+				-- Navigation
 				map("n", "gr", telescope.lsp_references, "Show LSP references")
 				map("n", "gd", telescope.lsp_definitions, "Show LSP definitions")
 				map("n", "gi", telescope.lsp_implementations, "Show LSP implementations")
 
-				map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
-				map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
-
-				map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
-				map("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename")
-
-				map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
-
-				map("n", "<leader>ds", telescope.lsp_document_symbols, "Document symbols")
-
 				map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
 				map("n", "gt", telescope.lsp_type_definitions, "Show LSP type definitions")
+
+				map("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
+				map("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic")
+
+				-- Diagnostics and documentations
+				map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
+				map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
+				map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
+				map("n", "<leader>ds", telescope.lsp_document_symbols, "Document symbols")
 
 				map("n", "<leader>ld", function()
 					telescope.diagnostics({ bufnr = 0 })
 				end, "Show buffer diagnostics")
+
+				-- LSP actions
+				map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
+				map("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename")
 
 				map("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP")
 
