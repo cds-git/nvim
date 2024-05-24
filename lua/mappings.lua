@@ -2,6 +2,17 @@ local map = vim.keymap.set
 
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General clear highlights" })
 
+map("n", "<leader>ln", "<cmd>set nu!<CR>", { desc = "Toggle line number" })
+map("n", "<leader>lrn", "<cmd>set rnu!<CR>", { desc = "Toggle relative number" })
+
+-- Navigation while in insert mode
+map("i", "<C-b>", "<ESC>^i", { desc = "Move beginning of line" })
+map("i", "<C-e>", "<End>", { desc = "Move end of line" })
+map("i", "<C-h>", "<Left>", { desc = "Move left" })
+map("i", "<C-l>", "<Right>", { desc = "Move right" })
+map("i", "<C-j>", "<Down>", { desc = "Move down" })
+map("i", "<C-k>", "<Up>", { desc = "Move up" })
+
 -- File mappings
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "File save" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
@@ -25,7 +36,7 @@ map("n", "<leader>sv", ":vsplit<Return><C-w>w", { desc = "[Window] Vertical Spli
 map("n", "<leader>sq", "<C-w>q", { desc = "[Window] Quit" })
 
 -- Window navigations
---map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
---map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
---map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
---map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
+map("n", "<C-h>", "<C-w>h", { desc = "[Window] Switch left" })
+map("n", "<C-l>", "<C-w>l", { desc = "[Window] Switch right" })
+map("n", "<C-j>", "<C-w>j", { desc = "[Window] Switch down" })
+map("n", "<C-k>", "<C-w>k", { desc = "[Window] Switch up" })
