@@ -11,7 +11,7 @@ return {
 			vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Fuzzy find recent files" })
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find open buffer" })
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help page" })
-			vim.keymap.set("n", "<leader>ma", builtin.marks, { desc = "Telescope find marks" })
+			vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Telescope find marks" })
 			vim.keymap.set(
 				"n",
 				"<leader>fz",

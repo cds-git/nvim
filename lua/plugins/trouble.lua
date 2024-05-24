@@ -1,5 +1,7 @@
-return {
+return { -- DISABLED
+	-- USING TELESCOPE INSTEAD FOR LISTING DIAGNOSTICS
 	"folke/trouble.nvim",
+	enabled = false,
 	dependencies = { "nvim-tree/nvim-web-devicons", "folke/todo-comments.nvim" },
 	keys = {
 		{ "<leader>xx", "<cmd>TroubleToggle<CR>", desc = "Open/close trouble list" },
