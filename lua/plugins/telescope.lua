@@ -7,9 +7,9 @@ return {
 			local builtin = require("telescope.builtin")
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Fuzzy find files in cwd" })
 			vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "Find string in cwd" })
-			vim.keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "Find string under cursor in cwd" })
+			vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Find word under cursor in cwd" })
 			vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Fuzzy find recent files" })
-			vim.keymap.set("n", "<leader>lb", builtin.buffers, { desc = "List open buffers" })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find open buffer" })
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help page" })
 			vim.keymap.set("n", "<leader>ma", builtin.marks, { desc = "Telescope find marks" })
 			vim.keymap.set(
