@@ -81,6 +81,22 @@ return {
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		end
 
+		-- Global diagnostic settings
+		vim.diagnostic.config({
+			virtual_text = false,
+			severity_sort = true,
+			update_in_insert = false,
+			float = {
+				header = "",
+				source = "always",
+				border = "rounded",
+				focusable = true,
+			},
+		})
+		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+		vim.lsp.handlers["textDocument/signatureHelp"] =
+			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
 		mason_lspconfig.setup_handlers({
 			-- default handler for installed servers
 			function(server_name)
