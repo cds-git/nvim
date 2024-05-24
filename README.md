@@ -10,3 +10,4 @@
 * Fix lualine to not split in middle for other windows
 * Make better integration for trouble
 * Fix neotest for dotnet, after it somehow broke
+* Add icons to debugging
