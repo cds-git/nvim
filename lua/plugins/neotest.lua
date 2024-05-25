@@ -9,7 +9,7 @@ return {
 	},
 	opts = {
 		discovery = {
-			enabled = true,
+			enabled = false,
 			concurrent = 0,
 		},
 		-- icons = {
