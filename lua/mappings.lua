@@ -17,7 +17,7 @@ map("i", "<C-k>", "<Up>", { desc = "Move up" })
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "File save" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
 
--- Move lines of text
+-- Move lines of text -- TODO: Make more consistent
 map("v", "J", "<cmd>m '>+1<CR>gv=gv", { desc = "Move lines down" })
 map("v", "K", "<cmd>m '<-2<CR>gv=gv", { desc = "Move lines up" })
 
