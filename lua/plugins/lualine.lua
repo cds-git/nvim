@@ -41,19 +41,31 @@ return {
 					disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
 				},
 				sections = {
-					lualine_a = { "mode" },
-					lualine_b = { "grapple" },
+					lualine_a = { { "mode", icon = "" } },
+					lualine_b = {
+						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+						{ "filename", file_status = true, padding = { left = 0, right = 1 } },
+					},
 					lualine_c = {
 						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							symbols = { error = " ", warn = " ", info = " ", hint = "" },
-							diagnostics_color = {
-								color_error = { fg = colors.red },
-								color_warn = { fg = colors.yellow },
-								color_info = { fg = colors.cyan },
-							},
+							"branch",
+							-- fmt = function(str)
+							-- 	return string.sub(str, 1, 20)
+							-- end,
 						},
+						{
+							"diff",
+							-- symbols = { added = " ", modified = " ", removed = " " },
+							symbols = { added = "+", modified = "~", removed = "-" },
+							diff_color = {
+								added = { fg = colors.green },
+								modified = { fg = colors.orange },
+								removed = { fg = colors.red },
+							},
+							cond = conditions.hide_in_width,
+						},
+					},
+					lualine_x = {
 						-- {
 						-- 	-- Lsp server name .
 						-- 	function()
@@ -74,32 +86,22 @@ return {
 						-- 	icon = " LSP:",
 						-- 	color = { fg = "#ffffff", gui = "bold" },
 						-- },
-					},
-					lualine_x = {
 						{
-							"diff",
-							-- symbols = { added = " ", modified = " ", removed = " " },
-							symbols = { added = "+", modified = "~", removed = "-" },
-							diff_color = {
-								added = { fg = colors.green },
-								modified = { fg = colors.orange },
-								removed = { fg = colors.red },
+							"diagnostics",
+							sources = { "nvim_diagnostic" },
+							symbols = { error = " ", warn = " ", info = " ", hint = "" },
+							diagnostics_color = {
+								color_error = { fg = colors.red },
+								color_warn = { fg = colors.yellow },
+								color_info = { fg = colors.cyan },
 							},
-							cond = conditions.hide_in_width,
-						},
-						{
-							"branch",
-							fmt = function(str)
-								return string.sub(str, 1, 12)
-							end,
 						},
 					},
 					lualine_y = {
-						"location",
+						"grapple",
 					},
 					lualine_z = {
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ "filename", file_status = true, padding = { left = 0, right = 1 } },
+						"location",
 					},
 				},
 			})
