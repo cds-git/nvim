@@ -1,3 +1,4 @@
+-- TODO: Get colors from a theme colorscheme
 local colors = {
 	bg = "#202328",
 	fg = "#bbc2cf",
@@ -10,20 +11,6 @@ local colors = {
 	magenta = "#c678dd",
 	blue = "#51afef",
 	red = "#ec5f67",
-}
-
-local conditions = {
-	buffer_not_empty = function()
-		return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
-	end,
-	hide_in_width = function()
-		return vim.fn.winwidth(0) > 80
-	end,
-	check_git_workspace = function()
-		local filepath = vim.fn.expand("%:p:h")
-		local gitdir = vim.fn.finddir(".git", filepath .. ";")
-		return gitdir and #gitdir > 0 and #gitdir < #filepath
-	end,
 }
 
 return {
@@ -43,26 +30,18 @@ return {
 				sections = {
 					lualine_a = { { "mode", icon = "" } },
 					lualine_b = {
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ "filename", file_status = true, padding = { left = 0, right = 1 } },
+						"grapple",
 					},
 					lualine_c = {
 						{
-							"branch",
-							-- fmt = function(str)
-							-- 	return string.sub(str, 1, 20)
-							-- end,
-						},
-						{
-							"diff",
-							-- symbols = { added = " ", modified = " ", removed = " " },
-							symbols = { added = "+", modified = "~", removed = "-" },
-							diff_color = {
-								added = { fg = colors.green },
-								modified = { fg = colors.orange },
-								removed = { fg = colors.red },
+							"diagnostics",
+							sources = { "nvim_diagnostic" },
+							symbols = { error = " ", warn = " ", info = " ", hint = "" },
+							diagnostics_color = {
+								color_error = { fg = colors.red },
+								color_warn = { fg = colors.yellow },
+								color_info = { fg = colors.cyan },
 							},
-							cond = conditions.hide_in_width,
 						},
 					},
 					lualine_x = {
@@ -86,22 +65,30 @@ return {
 						-- 	icon = " LSP:",
 						-- 	color = { fg = "#ffffff", gui = "bold" },
 						-- },
+
 						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							symbols = { error = " ", warn = " ", info = " ", hint = "" },
-							diagnostics_color = {
-								color_error = { fg = colors.red },
-								color_warn = { fg = colors.yellow },
-								color_info = { fg = colors.cyan },
+							"diff",
+							-- symbols = { added = " ", modified = " ", removed = " " },
+							symbols = { added = "+", modified = "~", removed = "-" },
+							diff_color = {
+								added = { fg = colors.green },
+								modified = { fg = colors.orange },
+								removed = { fg = colors.red },
 							},
+						},
+						{
+							"branch",
+							-- fmt = function(str)
+							-- 	return string.sub(str, 1, 20)
+							-- end,
 						},
 					},
 					lualine_y = {
-						"grapple",
+						"location",
 					},
 					lualine_z = {
-						"location",
+						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+						{ "filename", file_status = true, padding = { left = 0, right = 1 } },
 					},
 				},
 			})
