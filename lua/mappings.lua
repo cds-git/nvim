@@ -17,9 +17,13 @@ map("i", "<C-k>", "<Up>", { desc = "Move up" })
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "File save" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
 
--- Move lines of text -- TODO: Make more consistent
-map("v", "J", "<cmd>m '>+1<CR>gv=gv", { desc = "Move lines down" })
-map("v", "K", "<cmd>m '<-2<CR>gv=gv", { desc = "Move lines up" })
+-- Move Lines
+map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
+map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
+map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
+map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- Copy and paste clipboard
 map({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to clipboard" })
@@ -34,6 +38,12 @@ map("n", "<leader>]", ":bn!<CR>", { desc = "Next buffer" })
 map("n", "<leader>ss", ":split<Return><C-w>w", { desc = "[Window] Horisontal Split" })
 map("n", "<leader>sv", ":vsplit<Return><C-w>w", { desc = "[Window] Vertical Split" })
 map("n", "<leader>q", "<C-w>q", { desc = "[Window] Quit" })
+
+-- Resize window using <ctrl> arrow keys
+-- map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+-- map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+-- map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+-- map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
 -- Window navigations
 map("n", "<C-h>", "<C-w>h", { desc = "[Window] Switch left" })

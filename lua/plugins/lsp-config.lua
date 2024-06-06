@@ -34,12 +34,15 @@ return {
 				local telescope = require("telescope.builtin")
 
 				-- Navigation
-				map("n", "gr", telescope.lsp_references, "Show LSP references")
-				map("n", "gd", telescope.lsp_definitions, "Show LSP definitions")
-				map("n", "gi", telescope.lsp_implementations, "Show LSP implementations")
+				map("n", "gr", vim.lsp.buf.references, "Show LSP references")
+				map("n", "gd", vim.lsp.buf.definition, "Show LSP definitions")
+				map("n", "gi", vim.lsp.buf.implementation, "Show LSP implementations")
+				-- map("n", "gr", telescope.lsp_references, "Show LSP references")
+				-- map("n", "gd", telescope.lsp_definitions, "Show LSP definitions")
+				-- map("n", "gi", telescope.lsp_implementations, "Show LSP implementations")
 
-				map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-				map("n", "gt", telescope.lsp_type_definitions, "Show LSP type definitions")
+				map("n", "gD", vim.lsp.buf.type_definition, "Go to declaration")
+				-- map("n", "gt", telescope.lsp_type_definitions, "Show LSP type definitions")
 
 				map("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
 				map("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic")
@@ -56,7 +59,7 @@ return {
 
 				-- LSP actions
 				map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
-				map("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename")
+				map("n", "<leader>rn", vim.lsp.buf.rename, "[LSP] Rename")
 
 				map("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP")
 
