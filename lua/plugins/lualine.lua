@@ -78,9 +78,12 @@ return {
 						},
 						{
 							"branch",
-							-- fmt = function(str)
-							-- 	return string.sub(str, 1, 20)
-							-- end,
+							fmt = function(str)
+								if string.len(str) <= 32 then
+									return str
+								end
+								return string.sub(str, 1, 32) .. "..."
+							end,
 						},
 					},
 					lualine_y = {
