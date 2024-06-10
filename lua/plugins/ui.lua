@@ -1,5 +1,6 @@
 return {
 	{
+		-- Telescope UI override for vim.ui.input and vim.ui.select
 		"stevearc/dressing.nvim",
 		event = "VeryLazy",
 	},
