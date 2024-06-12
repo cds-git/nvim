@@ -90,9 +90,9 @@ return {
 				console = "integratedTerminal",
 				program = function()
 					if vim.fn.confirm("Should I recompile first?", "&yes\n&no", 2) == 1 then
-						require("utils").dotnet_build_project()
+						require("utility.omnisharp").dotnet_build_project()
 					end
-					return require("utils").dotnet_get_dll_path()
+					return require("utility.omnisharp").dotnet_get_dll_path()
 				end,
 			},
 		}
