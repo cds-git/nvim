@@ -1,5 +1,6 @@
 return {
 	"nvim-neotest/neotest",
+	event = "VeryLazy",
 	dependencies = {
 		"nvim-neotest/nvim-nio",
 		"nvim-lua/plenary.nvim",
@@ -8,24 +9,20 @@ return {
 		"Issafalcon/neotest-dotnet",
 	},
 	opts = {
-		discovery = {
-			enabled = false,
-			concurrent = 0,
+		log_level = 1, -- For verbose logs
+		icons = {
+			expanded = "",
+			child_prefix = "",
+			child_indent = "",
+			final_child_prefix = "",
+			non_collapsible = "",
+			collapsed = "",
+			passed = "",
+			running = "",
+			failed = "",
+			unknown = "",
+			skipped = "",
 		},
-		-- icons = {
-		-- 	expanded = "",
-		-- 	child_prefix = "",
-		-- 	child_indent = "",
-		-- 	final_child_prefix = "",
-		-- 	non_collapsible = "",
-		-- 	collapsed = "",
-		--
-		-- 	passed = "",
-		-- 	running = "",
-		-- 	failed = "",
-		-- 	unknown = "",
-		-- 	running_animated = { "◴", "◷", "◶", "◵" },
-		-- },
 	},
 	config = function(_, opts)
 		opts.adapters = {
