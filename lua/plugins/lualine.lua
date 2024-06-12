@@ -34,6 +34,44 @@ return {
 					},
 					lualine_c = {
 						{
+							-- Lsp server name .
+							function()
+								local clients = vim.lsp.get_clients()
+
+								if next(clients) == nil then
+									return ""
+								end
+
+								return " "
+
+								-- local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+								-- local c = {}
+								--
+								-- for _, client in ipairs(clients) do
+								-- 	local filetypes = client.config.filetypes
+								-- 	if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+								-- 		if client.name == "omnisharp" then
+								-- 			table.insert(c, "󰈸")
+								-- 		elseif client.name == "angularls" then
+								-- 			table.insert(c, "")
+								-- 		elseif client.name == "tsserver" then
+								-- 			table.insert(c, "")
+								-- 		elseif client.name == "html" then
+								-- 			table.insert(c, "")
+								-- 		elseif client.name == "cssls" then
+								-- 			table.insert(c, "")
+								-- 		else
+								-- 			table.insert(c, client.name)
+								-- 		end
+								-- 	end
+								-- end
+								--
+								-- return table.concat(c, "|")
+							end,
+							-- icon = " ",
+							-- color = { fg = "#ffffff", gui = "bold" },
+						},
+						{
 							"diagnostics",
 							sources = { "nvim_diagnostic" },
 							symbols = { error = " ", warn = " ", info = " ", hint = "" },
@@ -45,27 +83,6 @@ return {
 						},
 					},
 					lualine_x = {
-						-- {
-						-- 	-- Lsp server name .
-						-- 	function()
-						-- 		local msg = "No Active Lsp"
-						-- 		local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-						-- 		local clients = vim.lsp.get_active_clients()
-						-- 		if next(clients) == nil then
-						-- 			return msg
-						-- 		end
-						-- 		for _, client in ipairs(clients) do
-						-- 			local filetypes = client.config.filetypes
-						-- 			if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-						-- 				return client.name
-						-- 			end
-						-- 		end
-						-- 		return msg
-						-- 	end,
-						-- 	icon = " LSP:",
-						-- 	color = { fg = "#ffffff", gui = "bold" },
-						-- },
-
 						{
 							"diff",
 							-- symbols = { added = " ", modified = " ", removed = " " },
