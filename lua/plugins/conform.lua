@@ -15,10 +15,10 @@ return {
 				scss = { "prettierd" },
 				css = { "prettierd" },
 			},
-			format_on_save = {
-				timeout_ms = 1000,
-				lsp_fallback = true,
-			},
+			-- format_on_save = {
+			-- 	timeout_ms = 1000,
+			-- 	lsp_fallback = true,
+			-- },
 		},
 		config = function(_, opts)
 			local conform = require("conform")

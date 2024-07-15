@@ -223,11 +223,20 @@ return {
 					root_dir = function()
 						return vim.fn.getcwd()
 					end,
+					on_attach = function(_, bufnr)
+						local clients = vim.lsp.buf_get_clients(bufnr)
+						for _, other_client in pairs(clients) do
+							if other_client.name == "tsserver" then
+								-- Prevent tsserver rename duplication when angularls is in use
+								other_client.server_capabilities.rename = false
+							end
+						end
+					end,
 				})
 			end,
 			["lua_ls"] = function()
 				-- configure lua server (with special settings)
-				lspconfig["lua_ls"].setup({
+				lspconfig.lua_ls.setup({
 					capabilities = capabilities,
 					settings = {
 						Lua = {
@@ -240,6 +249,19 @@ return {
 							},
 						},
 					},
+				})
+			end,
+			["powershell_es"] = function()
+				local bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services"
+				local command_fmt =
+					[[& '%s/PowerShellEditorServices/Start-EditorServices.ps1' -BundledModulesPath '%s' -LogPath '%s/powershell_es.log' -SessionDetailsPath '%s/powershell_es.session.json' -FeatureFlags @() -AdditionalModules @() -HostName nvim -HostProfileId 0 -HostVersion 1.0.0 -Stdio -LogLevel Normal]]
+				local temp_path = vim.fn.stdpath("cache")
+				local command = command_fmt:format(bundle_path, bundle_path, temp_path, temp_path)
+
+				lspconfig.powershell_es.setup({
+					filetypes = { "ps1", "psm1" },
+					bundle_path = bundle_path,
+					cmd = { "pwsh", "-NoLogo", "-Command", command },
 				})
 			end,
 		})

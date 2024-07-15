@@ -17,11 +17,11 @@ return {
 					-- selection_caret = " ",
 					path_display = { "smart" },
 
-					wrap_results = true,
+					-- wrap_results = true,
 					layout_strategy = "vertical",
 					layout_config = { prompt_position = "top", width = 0.5 },
 					sorting_strategy = "ascending",
-					winblend = 0,
+					-- winblend = 0,
 				},
 				pickers = {
 					find_files = {

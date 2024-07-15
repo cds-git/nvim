@@ -34,6 +34,13 @@ return {
 				"html",
 				"cssls",
 				"angularls",
+				"powershell_es",
+				"bashls",
+				"vale_ls",
+				"yamlls",
+				"jsonls",
+				"helm_ls",
+				"docker_compose_language_service",
 			},
 		})
 

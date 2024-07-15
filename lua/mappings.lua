@@ -35,7 +35,7 @@ map("n", "[b", ":bp!<CR>", { desc = "Previous buffer" })
 map("n", "]b", ":bn!<CR>", { desc = "Next buffer" })
 
 -- Window splitting
-map("n", "<leader>ss", ":split<Return><C-w>w", { desc = "[Window] Horisontal Split" })
+map("n", "<leader>sx", ":split<Return><C-w>w", { desc = "[Window] Horisontal Split" })
 map("n", "<leader>sv", ":vsplit<Return><C-w>w", { desc = "[Window] Vertical Split" })
 map("n", "<leader>q", "<C-w>q", { desc = "[Window] Quit" })
 
