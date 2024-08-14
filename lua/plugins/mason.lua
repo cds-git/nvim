@@ -34,7 +34,7 @@ return {
 				"html",
 				"cssls",
 				"angularls",
-				"powershell_es",
+                "eslint",
 				"bashls",
 				"vale_ls",
 				"yamlls",

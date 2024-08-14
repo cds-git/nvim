@@ -21,9 +21,9 @@ return {
 		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
 		require("luasnip.loaders.from_vscode").lazy_load()
 		cmp.setup({
-			completion = {
-				completeopt = "menu,menuone,preview,noselect",
-			},
+			-- completion = {
+			-- 	completeopt = "menu,menuone,preview,noselect",
+			-- },
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
 					luasnip.lsp_expand(args.body)
@@ -33,13 +33,13 @@ return {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),
 			},
-			mapping = cmp.mapping.preset.insert({
+			mapping = {
 				["<CR>"] = cmp.mapping.confirm({ select = false }), -- select = if first item should be selected by default
-				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<C-p>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-				["<C-n>"] = cmp.mapping.select_next_item(), -- next suggestion
-				["<C-b>"] = cmp.mapping.scroll_docs(-4),
-				["<C-f>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c", "n" }), -- show completion suggestions
+				["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "s", "c" }), -- previous suggestion
+				["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "s", "c" }), -- next suggestion
+				["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+				["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
@@ -52,7 +52,7 @@ return {
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+				end, { "i", "s", "c" }),
 
 				["<S-Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
@@ -62,15 +62,37 @@ return {
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
-			}),
+				end, { "i", "s", "c" }),
+			},
 
+			performance = {
+				max_view_entries = 100,
+			},
 			-- sources for autocompletion
 			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- snippets
-				{ name = "buffer" }, -- text within current buffer
-				{ name = "path" }, -- file system paths
+				{
+					-- lsp
+					name = "nvim_lsp",
+					priority = 10,
+				},
+				{
+					-- snippets
+					name = "luasnip",
+					priority = 7,
+					max_item_count = 5,
+				},
+				{
+					-- text within current buffer
+					name = "buffer",
+					priority = 7,
+					max_item_count = 5,
+				},
+				{
+					-- file system paths
+					name = "path",
+					priority = 5,
+					max_item_count = 10,
+				},
 			}),
 
 			-- configure lspkind for vs-code like pictograms in completion menu
