@@ -36,9 +36,9 @@ return {
 				"angularls",
                 "eslint",
 				"bashls",
-				"vale_ls",
 				"yamlls",
 				"jsonls",
+                "marksman",
 				"helm_ls",
 				"docker_compose_language_service",
 			},
@@ -51,7 +51,6 @@ return {
 				"eslint_d", -- js/ts linter
 				"netcoredbg", -- .net debug adaptor
 				"shfmt", -- bash formatter
-				"vale", -- markdown formatter
 			},
 		})
 	end,

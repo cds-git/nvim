@@ -4,7 +4,7 @@ return {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
-				markdown = { "vale" },
+				markdown = { "prettierd" },
 				sh = { "shfmt" },
 				javascript = { "eslint_d", "prettierd" },
 				typescript = { "eslint_d", "prettierd" },
