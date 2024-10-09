@@ -29,8 +29,7 @@ return {
 			-- list of servers for mason to install
 			ensure_installed = {
 				"lua_ls",
-				"omnisharp",
-				"tsserver",
+				-- "omnisharp",
 				"html",
 				"cssls",
 				"angularls",
@@ -40,6 +39,7 @@ return {
 				"jsonls",
                 "marksman",
 				"helm_ls",
+                "dockerls",
 				"docker_compose_language_service",
 			},
 		})

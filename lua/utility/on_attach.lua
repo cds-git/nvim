@@ -1,9 +1,6 @@
 local M = {}
--- TODO: WORK IN PROGRESS
 
-M.lsp.on_attach = function(client, bufnr)
-	local capabilities = client.server_capabilities
-
+M.on_attach = function(client, bufnr)
 	if client.server_capabilities.signatureHelpProvider then
 		local lsp_overloads_ok, lsp_overloads = pcall(require, "lsp-overloads")
 		if lsp_overloads_ok then

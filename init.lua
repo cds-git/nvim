@@ -1,6 +1,3 @@
-require("settings")
-require("mappings")
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -14,6 +11,39 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
-
+require("options")
 require("autocommands")
+
+require("lazy").setup({
+	spec = {
+		{ import = "core" },
+		{ import = "langs" },
+		{ import = "plugins" },
+	},
+	-- defaults = {
+	-- 	lazy = false, -- whether to lazy load all plugins by default
+	-- 	version = false, -- always use the latest git commit
+	-- },
+	checker = { enabled = true, frequency = 60 * 60 * 24 * 7 }, -- automatically check for plugin updates every week
+	performance = {
+		rtp = {
+			-- disable some rtp plugins
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
+	-- don't reload when config changes because it doesn't really work anyway?
+	change_detection = {
+		enabled = false,
+	},
+})
+
+require("keymaps")

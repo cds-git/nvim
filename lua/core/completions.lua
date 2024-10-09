@@ -1,15 +1,53 @@
 return {
 	"hrsh7th/nvim-cmp",
-	--event = "InsertEnter",
+	-- event = "InsertEnter",
 	dependencies = {
 		"hrsh7th/cmp-buffer", -- source for text in buffer
 		"hrsh7th/cmp-path", -- source for file system paths
 		"hrsh7th/cmp-cmdline",
 		"hrsh7th/cmp-nvim-lsp",
-		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 		"rafamadriz/friendly-snippets", -- useful snippets
 		"onsails/lspkind.nvim", -- vs-code like pictograms
+		{
+			"L3MON4D3/LuaSnip",
+			event = "InsertEnter",
+			config = function()
+				local ls = require("luasnip")
+
+				vim.keymap.set({ "i", "s" }, "<C-j>", function()
+					if ls.expand_or_jumpable() then
+						ls.expand_or_jump()
+					end
+				end, {
+					desc = "Luasnip: Expand or jump",
+				})
+				--
+				-- vim.keymap.set({ "i", "s" }, "<C-k>", function()
+				-- 	if ls.jumpable(-1) then
+				-- 		ls.jump(-1)
+				-- 	end
+				-- end, {
+				-- 	desc = "Luasnip: Jump back",
+				-- })
+
+				vim.keymap.set("i", "<c-l>", function()
+					if ls.choice_active() then
+						ls.change_choice(1)
+					end
+				end, {
+					desc = "Luasnip: Cycle through choice nodes",
+				})
+
+				local snippets = {}
+
+				snippets.all = {}
+
+				for lang, snips in pairs(snippets) do
+					ls.add_snippets(lang, snips)
+				end
+			end,
+		},
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -100,7 +138,15 @@ return {
 				fields = { "abbr", "kind", "menu" },
 				expandable_indicator = true,
 				format = lspkind.cmp_format({
-					maxwidth = 50,
+					-- mode = "symbol_text",
+					menu = {
+						nvim_lsp = "[LSP]",
+						buffer = "[Buffer]",
+						luasnip = "[Luasnip]",
+						path = "[Path]",
+						crates = "[Crates]",
+					},
+					maxwidth = 90,
 					ellipsis_char = "...",
 				}),
 			},
