@@ -34,6 +34,7 @@ return {
 				"cssls",
 				"angularls",
                 "eslint",
+                "vtsls",
 				"bashls",
 				"yamlls",
 				"jsonls",

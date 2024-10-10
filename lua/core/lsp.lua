@@ -122,10 +122,15 @@ return {
 		config = function(_, opts)
 			require("mason-lspconfig").setup_handlers({
 				function(server)
+					local server_status_ok, server_config = pcall(require, "langs." .. server)
+					if not server_status_ok then
+						server_config = {}
+					end
+
 					local config = vim.tbl_deep_extend("error", {
 						capabilities = require("utility.capabilities").capabilities,
 						on_attach = require("utility.on_attach").on_attach,
-					}, {})
+					}, server_config)
 					require("lspconfig")[server].setup(config)
 				end,
 			})
