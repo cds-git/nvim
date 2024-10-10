@@ -17,7 +17,6 @@ require("autocommands")
 require("lazy").setup({
 	spec = {
 		{ import = "core" },
-		{ import = "langs" },
 		{ import = "plugins" },
 	},
 	-- defaults = {

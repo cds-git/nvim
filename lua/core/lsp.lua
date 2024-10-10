@@ -1,3 +1,11 @@
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "rounded",
+})
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+	border = "rounded",
+})
+
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -54,39 +62,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<leader>th", function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 		end, "Toggle inlay hints")
-
-		vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx)
-			if not result or vim.tbl_isempty(result) then
-				return vim.notify("Lsp: Could not find definition")
-			end
-			local client = vim.lsp.get_client_by_id(ctx.client_id)
-			if not client then
-				return vim.notify("Lsp: Could not find client")
-			end
-
-			if vim.islist(result) then
-				local results = vim.lsp.util.locations_to_items(result, client.offset_encoding)
-				local lnum, filename = results[1].lnum, results[1].filename
-				for _, val in pairs(results) do
-					if val.lnum ~= lnum or val.filename ~= filename then
-						return require("telescope.builtin").lsp_definitions()
-					end
-				end
-				vim.lsp.util.jump_to_location(result[1], client.offset_encoding, false)
-			else
-				vim.lsp.util.jump_to_location(result, client.offset_encoding, false)
-			end
-		end
-		vim.lsp.handlers["textDocument/references"] = function(_, _, _)
-			require("telescope.builtin").lsp_references()
-		end
-
-		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-			border = "rounded",
-		})
-		vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-			border = "rounded",
-		})
 	end,
 })
 
@@ -110,6 +85,32 @@ vim.diagnostic.config({
 	},
 })
 
+-- vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx)
+-- 	if not result or vim.tbl_isempty(result) then
+-- 		return vim.notify("Lsp: Could not find definition")
+-- 	end
+-- 	local client = vim.lsp.get_client_by_id(ctx.client_id)
+-- 	if not client then
+-- 		return vim.notify("Lsp: Could not find client")
+-- 	end
+--
+-- 	if vim.islist(result) then
+-- 		local results = vim.lsp.util.locations_to_items(result, client.offset_encoding)
+-- 		local lnum, filename = results[1].lnum, results[1].filename
+-- 		for _, val in pairs(results) do
+-- 			if val.lnum ~= lnum or val.filename ~= filename then
+-- 				return require("telescope.builtin").lsp_definitions()
+-- 			end
+-- 		end
+-- 		vim.lsp.util.jump_to_location(result[1], client.offset_encoding, false)
+-- 	else
+-- 		vim.lsp.util.jump_to_location(result, client.offset_encoding, false)
+-- 	end
+-- end
+-- vim.lsp.handlers["textDocument/references"] = function(_, _, _)
+-- 	require("telescope.builtin").lsp_references()
+-- end
+
 return {
 	{
 		"neovim/nvim-lspconfig",
@@ -119,18 +120,11 @@ return {
 			},
 		},
 		config = function(_, opts)
-			local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-			local capabilities = vim.tbl_deep_extend(
-				"force",
-				vim.lsp.protocol.make_client_capabilities(),
-				ok and cmp_nvim_lsp.default_capabilities() or {}
-			)
-
 			require("mason-lspconfig").setup_handlers({
 				function(server)
 					local config = vim.tbl_deep_extend("error", {
-						capabilities = capabilities,
-                        on_attach = require("utility.on_attach").on_attach
+						capabilities = require("utility.capabilities").capabilities,
+						on_attach = require("utility.on_attach").on_attach,
 					}, {})
 					require("lspconfig")[server].setup(config)
 				end,
@@ -143,6 +137,29 @@ return {
 			{ "williamboman/mason-lspconfig.nvim", config = true, cmd = { "LspInstall", "LspUninstall" } },
 			{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
 			{ "seblj/nvim-lsp-extras" },
+			{
+				"seblj/roslyn.nvim",
+				ft = "cs",
+				config = function()
+					require("roslyn").setup({
+						config = {
+							capabilities = require("utility.capabilities").capabilities,
+							on_attach = require("utility.on_attach").on_attach,
+						},
+					})
+				end,
+			},
+			{
+				"neovim/nvim-lspconfig",
+				dependencies = { "folke/neodev.nvim" },
+				opts = function(_, opts)
+					return vim.tbl_extend("force", opts, {
+						servers = {
+							lua_ls = { before_init = require("neodev.lsp").before_init },
+						},
+					})
+				end,
+			},
 		},
 	},
 }
