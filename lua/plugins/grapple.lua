@@ -21,5 +21,6 @@ return {
 		{ "<leader>6", "<cmd>Grapple select index=6<cr>", desc = "which_key_ignore" },
 		{ "<leader>7", "<cmd>Grapple select index=7<cr>", desc = "which_key_ignore" },
 		{ "<leader>8", "<cmd>Grapple select index=8<cr>", desc = "which_key_ignore" },
+		{ "<leader>9", "<cmd>Grapple select index=9<cr>", desc = "which_key_ignore" },
 	},
 }

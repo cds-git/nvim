@@ -6,6 +6,23 @@ return {
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
+			require("catppuccin").setup({
+				flavour = "mocha",
+				highlight_overrides = {
+					mocha = function(mocha)
+						return {
+							["@type.builtin"] = { link = "Keyword" }, -- primitive types
+						}
+					end,
+				},
+				integrations = {
+					cmp = true,
+					gitsigns = true,
+					nvimtree = true,
+					treesitter = true,
+					notify = false,
+				},
+			})
 			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
