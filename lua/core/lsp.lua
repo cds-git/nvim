@@ -121,8 +121,7 @@ return {
 			{ "Hoffs/omnisharp-extended-lsp.nvim", enabled = true, lazy = true },
 			{ "folke/neodev.nvim" },
 			-- { "seblj/nvim-lsp-extras" },
-			-- Roslyn LSP for C#/.NET instead of omnisharp
-			{
+			{ -- Roslyn LSP for C#/.NET instead of omnisharp
 				"seblj/roslyn.nvim",
 				enabled = false,
 				ft = "cs",

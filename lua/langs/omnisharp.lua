@@ -7,7 +7,7 @@ return {
 			require("omnisharp_extended").telescope_lsp_definition,
 			{ desc = "Show LSP definitions OmniSharp", remap = true, buffer = bufnr }
 		)
-        require("utility.on_attach").on_attach(client, bufnr)
+		require("utility.on_attach").on_attach(client, bufnr)
 	end,
 	-- Enables support for reading code style, naming convention and analyzer
 	-- settings from .editorconfig.

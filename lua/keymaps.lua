@@ -5,14 +5,6 @@ map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General clear highlights" })
 map("n", "<leader>ln", "<cmd>set nu!<CR>", { desc = "Toggle line number" })
 map("n", "<leader>lrn", "<cmd>set rnu!<CR>", { desc = "Toggle relative number" })
 
--- Navigation while in insert mode
--- map("i", "<C-b>", "<ESC>^i", { desc = "Move beginning of line" })
--- map("i", "<C-e>", "<End>", { desc = "Move end of line" })
--- map("i", "<C-h>", "<Left>", { desc = "Move left" })
--- map("i", "<C-l>", "<Right>", { desc = "Move right" })
--- map("i", "<C-j>", "<Down>", { desc = "Move down" })
--- map("i", "<C-k>", "<Up>", { desc = "Move up" })
-
 -- File mappings
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "File save" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
@@ -50,3 +42,11 @@ map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
+-- Navigation while in insert mode
+-- map("i", "<C-b>", "<ESC>^i", { desc = "Move beginning of line" })
+-- map("i", "<C-e>", "<End>", { desc = "Move end of line" })
+-- map("i", "<C-h>", "<Left>", { desc = "Move left" })
+-- map("i", "<C-l>", "<Right>", { desc = "Move right" })
+-- map("i", "<C-j>", "<Down>", { desc = "Move down" })
+-- map("i", "<C-k>", "<Up>", { desc = "Move up" })
