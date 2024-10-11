@@ -85,40 +85,16 @@ vim.diagnostic.config({
 	},
 })
 
--- vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx)
--- 	if not result or vim.tbl_isempty(result) then
--- 		return vim.notify("Lsp: Could not find definition")
--- 	end
--- 	local client = vim.lsp.get_client_by_id(ctx.client_id)
--- 	if not client then
--- 		return vim.notify("Lsp: Could not find client")
--- 	end
---
--- 	if vim.islist(result) then
--- 		local results = vim.lsp.util.locations_to_items(result, client.offset_encoding)
--- 		local lnum, filename = results[1].lnum, results[1].filename
--- 		for _, val in pairs(results) do
--- 			if val.lnum ~= lnum or val.filename ~= filename then
--- 				return require("telescope.builtin").lsp_definitions()
--- 			end
--- 		end
--- 		vim.lsp.util.jump_to_location(result[1], client.offset_encoding, false)
--- 	else
--- 		vim.lsp.util.jump_to_location(result, client.offset_encoding, false)
--- 	end
--- end
--- vim.lsp.handlers["textDocument/references"] = function(_, _, _)
--- 	require("telescope.builtin").lsp_references()
--- end
-
 return {
 	{
 		"neovim/nvim-lspconfig",
-		opts = {
-			servers = {
-				dockerls = {},
-			},
-		},
+		opts = function(_, opts)
+			return vim.tbl_extend("force", opts, {
+				servers = {
+					lua_ls = { before_init = require("neodev.lsp").before_init },
+				},
+			})
+		end,
 		config = function(_, opts)
 			require("mason-lspconfig").setup_handlers({
 				function(server)
@@ -127,7 +103,7 @@ return {
 						server_config = {}
 					end
 
-					local config = vim.tbl_deep_extend("error", {
+					local config = vim.tbl_deep_extend("force", {
 						capabilities = require("utility.capabilities").capabilities,
 						on_attach = require("utility.on_attach").on_attach,
 					}, server_config)
@@ -141,26 +117,20 @@ return {
 			{ "williamboman/mason.nvim", config = true, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", config = true, cmd = { "LspInstall", "LspUninstall" } },
 			{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
-			{ "seblj/nvim-lsp-extras" },
+			-- enables omnisharp goto definition with decompliation
+			{ "Hoffs/omnisharp-extended-lsp.nvim", enabled = true, lazy = true },
+			{ "folke/neodev.nvim" },
+			-- { "seblj/nvim-lsp-extras" },
+			-- Roslyn LSP for C#/.NET instead of omnisharp
 			{
 				"seblj/roslyn.nvim",
+				enabled = false,
 				ft = "cs",
 				config = function()
 					require("roslyn").setup({
 						config = {
 							capabilities = require("utility.capabilities").capabilities,
 							on_attach = require("utility.on_attach").on_attach,
-						},
-					})
-				end,
-			},
-			{
-				"neovim/nvim-lspconfig",
-				dependencies = { "folke/neodev.nvim" },
-				opts = function(_, opts)
-					return vim.tbl_extend("force", opts, {
-						servers = {
-							lua_ls = { before_init = require("neodev.lsp").before_init },
 						},
 					})
 				end,
