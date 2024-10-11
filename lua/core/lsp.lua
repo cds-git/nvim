@@ -91,7 +91,7 @@ return {
 		opts = function(_, opts)
 			return vim.tbl_extend("force", opts, {
 				servers = {
-					lua_ls = { before_init = require("neodev.lsp").before_init },
+					lua_ls = { before_init = require("lazydev.lsp").before_init },
 				},
 			})
 		end,
@@ -117,9 +117,20 @@ return {
 			{ "williamboman/mason.nvim", config = true, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", config = true, cmd = { "LspInstall", "LspUninstall" } },
 			{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
-			-- enables omnisharp goto definition with decompliation
-			{ "Hoffs/omnisharp-extended-lsp.nvim", enabled = true, lazy = true },
-			{ "folke/neodev.nvim" },
+			{
+				"folke/lazydev.nvim",
+				ft = "lua", -- only load on lua files
+				opts = {
+					library = {
+						-- See the configuration section for more details
+						-- Load luvit types when the `vim.uv` word is found
+						{ path = "luvit-meta/library", words = { "vim%.uv" } },
+					},
+				},
+			},
+			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+            -- enables omnisharp goto definition with decompliation
+            { "Hoffs/omnisharp-extended-lsp.nvim", enabled = true, lazy = true },
 			-- { "seblj/nvim-lsp-extras" },
 			{ -- Roslyn LSP for C#/.NET instead of omnisharp
 				"seblj/roslyn.nvim",
