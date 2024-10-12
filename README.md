@@ -1,4 +1,6 @@
-# Fullstack setup focusing on .NET
+# Neovim
+
+Beautiful neovim setup specialized for fullstack development with .NET and Angular
 
 ## TODO:
 
@@ -8,4 +10,5 @@
     - [vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion)
 - Look into [flash.nvim](https://github.com/folke/flash.nvim)
 - Fix noice to only use the floating cmdline and search
-- Setup toggleterm
+- Setup toggleterm with floating term, and lazygit shortcut
+- Add tmux support
