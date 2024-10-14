@@ -13,51 +13,63 @@ return {
 
 			telescope.setup({
 				defaults = {
-					-- prompt_prefix = " ",
-					-- selection_caret = " ",
-					path_display = { "smart" },
-
-					-- wrap_results = true,
-					layout_strategy = "vertical",
-					layout_config = { prompt_position = "top", width = 0.5 },
+					prompt_prefix = "   ",
+					-- selection_caret = " ",
+					entry_prefix = " ",
 					sorting_strategy = "ascending",
-					-- winblend = 0,
+					layout_config = {
+						horizontal = {
+							prompt_position = "top",
+							preview_width = 0.55,
+						},
+						width = 0.55,
+						height = 0.60,
+					},
+					file_ignore_patterns = { "node_modules", "package%-lock.json" },
 				},
 				pickers = {
 					find_files = {
 						-- theme = "dropdown",
-						layout_strategy = "center",
+						-- layout_strategy = "center",
 						layout_config = {
 							preview_cutoff = 9999,
 						},
 					},
 					oldfiles = {
-						layout_strategy = "center",
+						-- layout_strategy = "center",
 						layout_config = {
 							preview_cutoff = 9999,
 						},
 					},
-					-- diagnostics = {
-					-- theme = "dropdown",
-					-- initial_mode = "normal",
-					-- layout_config = {
-					-- 	preview_cutoff = 9999,
-					-- },
-					-- },
+					live_grep = {
+						only_sort_text = true,
+						layout_config = { prompt_position = "top", height = 0.88 },
+						layout_strategy = "vertical",
+					},
+					grep_string = {
+						only_sort_text = true,
+						layout_config = { prompt_position = "top", height = 0.88 },
+						layout_strategy = "vertical",
+					},
+					diagnostics = {
+						layout_config = { prompt_position = "top", height = 0.88 },
+						layout_strategy = "vertical",
+					},
 				},
 				extensions = {
-					-- Your extension configuration goes here:
-					-- extension_name = {
-					--   extension_config_key = value,
-					-- }
-					-- please take a look at the readme of the extension you want to configure
+					fzf = {
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "smart_case",
+					},
 				},
 			})
 
 			telescope.load_extension("fzf")
+			telescope.load_extension("grapple")
 
 			local builtin = require("telescope.builtin")
-
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[Telescope] Find files in cwd" })
 			vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[Telescope] Find string in cwd" })
 			vim.keymap.set(
@@ -79,6 +91,9 @@ return {
 			vim.keymap.set("n", "<leader>fa", function()
 				builtin.find_files({ follow = true, no_ignore = true, hidden = true })
 			end, { desc = "[Telescope] Fuzzy find ALL files in cwd" })
+
+			vim.keymap.set("n", "<leader>fy", builtin.registers, { desc = "[Telescope] Find in registers" })
+			vim.keymap.set("n", "<leader>fc", builtin.spell_suggest, { desc = "[Telescope] Spell suggest" })
 		end,
 	},
 }
