@@ -11,4 +11,4 @@ Beautiful neovim setup specialized for fullstack development with .NET and Angul
 - Look into [flash.nvim](https://github.com/folke/flash.nvim)
 - Fix noice to only use the floating cmdline and search
 - Setup toggleterm with floating term, and lazygit shortcut
-- Add tmux support
+- Add nvim tmux navigation support plugins

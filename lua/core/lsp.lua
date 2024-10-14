@@ -20,9 +20,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local telescope = require("telescope.builtin")
 
 		-- Navigation
-		map("n", "gr", vim.lsp.buf.references, "Show LSP references")
 		-- map("n", "gd", vim.lsp.buf.definition, "Go to LSP definitions")
 		-- map("n", "gi", vim.lsp.buf.implementation, "Go to LSP implementations")
+        map("n", "gr", vim.lsp.buf.references, "Show LSP references")
 		map("n", "gi", telescope.lsp_implementations, "Go to LSP implementations")
 		map("n", "gd", telescope.lsp_definitions, "Show LSP definitions")
 		-- map("n", "gr", telescope.lsp_references, "Show LSP references")
@@ -30,9 +30,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- map("n", "gD", vim.lsp.buf.type_definition, "Go to declaration")
 		map("n", "gD", vim.lsp.buf.declaration, "Go to LSP declaration")
 		map("n", "gt", telescope.lsp_type_definitions, "Go to LSP type definitions")
-
-		map("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic")
-		map("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic")
 
 		-- Diagnostics and documentations
 		map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")

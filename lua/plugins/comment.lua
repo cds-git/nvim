@@ -8,6 +8,10 @@ return {
 		-- import comment plugin safely
 		local comment = require("Comment")
 
+		local ft = require("Comment.ft")
+		local angular_commentstring = "<!--%s-->"
+		ft.set("angular", { angular_commentstring, angular_commentstring })
+
 		local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
 
 		-- enable comment
