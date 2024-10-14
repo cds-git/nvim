@@ -15,7 +15,7 @@ return {
 				vim.keymap.set("n", "<leader>gp", gitsigns.preview_hunk, { desc = "[Gitsigns] Preview git hunk" })
 
 				-- blame
-                vim.keymap.set("n", "<leader>gf", gitsigns.blame, { desc = "[Gitsigns] Blame entire file" })
+				vim.keymap.set("n", "<leader>gf", gitsigns.blame, { desc = "[Gitsigns] Blame entire file" })
 				vim.keymap.set("n", "<leader>gb", gitsigns.blame_line, { desc = "[Gitsigns] Blame current line" })
 				vim.keymap.set("n", "<leader>gB", function()
 					gitsigns.blame_line({ full = true })
@@ -28,6 +28,26 @@ return {
 				-- diff
 				vim.keymap.set("n", "<leader>gD", gitsigns.diffthis, { desc = "[Gitsigns] Diff this" })
 			end,
+		},
+	},
+	{
+		"kdheepak/lazygit.nvim",
+		lazy = true,
+		cmd = {
+			"LazyGit",
+			"LazyGitConfig",
+			"LazyGitCurrentFile",
+			"LazyGitFilter",
+			"LazyGitFilterCurrentFile",
+		},
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		-- setting the keybinding for LazyGit with 'keys' is recommended in
+		-- order to load the plugin when the command is run for the first time
+		keys = {
+			{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
 		},
 	},
 }
