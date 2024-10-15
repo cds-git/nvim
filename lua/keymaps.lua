@@ -33,9 +33,9 @@ map("n", "<leader>q", "<C-w>q", { desc = "[Window] Quit" })
 
 -- Window navigations
 map("n", "<C-h>", "<C-w>h", { desc = "[Window] Switch left" })
-map("n", "<C-l>", "<C-w>l", { desc = "[Window] Switch right" })
 map("n", "<C-j>", "<C-w>j", { desc = "[Window] Switch down" })
 map("n", "<C-k>", "<C-w>k", { desc = "[Window] Switch up" })
+map("n", "<C-l>", "<C-w>l", { desc = "[Window] Switch right" })
 
 -- Resize window using <ctrl> arrow keys
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })

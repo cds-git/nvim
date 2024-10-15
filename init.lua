@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("options")
 require("autocommands")
+require("keymaps")
 
 require("lazy").setup({
 	spec = {
@@ -23,7 +24,7 @@ require("lazy").setup({
 	-- 	lazy = false, -- whether to lazy load all plugins by default
 	-- 	version = false, -- always use the latest git commit
 	-- },
-	checker = { enabled = true, frequency = 60 * 60 * 24 * 7 }, -- automatically check for plugin updates every week
+	-- checker = { enabled = true, frequency = 60 * 60 * 24 * 7 }, -- automatically check for plugin updates every week
 	performance = {
 		rtp = {
 			-- disable some rtp plugins
@@ -45,4 +46,3 @@ require("lazy").setup({
 	},
 })
 
-require("keymaps")
