@@ -11,4 +11,8 @@ Greatest neovim config known to mankind
 - Look into test suite plugins either fix neotest or try vim-test
 - Look into [flash.nvim](https://github.com/folke/flash.nvim) for some movement util
 - Look into [noice.nvim](https://github.com/folke/noice.nvim) for improved UI
-- Add [markdown-toc](https://github.com/jonschlinkert/markdown-toc)
+- Markdown
+    - Add [markdown-toc](https://github.com/jonschlinkert/markdown-toc)
+    - Folding
+    - outline
+

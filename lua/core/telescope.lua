@@ -17,43 +17,58 @@ return {
 					-- selection_caret = " ",
 					entry_prefix = " ",
 					sorting_strategy = "ascending",
-					layout_config = {
-						horizontal = {
-							prompt_position = "top",
-							preview_width = 0.55,
-						},
-						width = 0.55,
-						height = 0.60,
-					},
+					layout_config = { prompt_position = "top", height = 0.88 },
+					layout_strategy = "vertical",
 					file_ignore_patterns = { "node_modules", "package%-lock.json" },
+					path_display = { "filename_first", "truncate" },
 				},
 				pickers = {
 					find_files = {
-						-- theme = "dropdown",
-						-- layout_strategy = "center",
+						previewer = false,
 						layout_config = {
-							preview_cutoff = 9999,
+							width = 0.55,
+							height = 0.60,
 						},
 					},
 					oldfiles = {
-						-- layout_strategy = "center",
+						previewer = false,
 						layout_config = {
-							preview_cutoff = 9999,
+							width = 0.55,
+							height = 0.60,
 						},
 					},
 					live_grep = {
 						only_sort_text = true,
-						layout_config = { prompt_position = "top", height = 0.88 },
-						layout_strategy = "vertical",
 					},
 					grep_string = {
 						only_sort_text = true,
-						layout_config = { prompt_position = "top", height = 0.88 },
-						layout_strategy = "vertical",
 					},
-					diagnostics = {
-						layout_config = { prompt_position = "top", height = 0.88 },
-						layout_strategy = "vertical",
+					buffers = {
+						hidden = true,
+						show_all_buffers = true,
+						sort_lastused = true,
+					},
+					-- diagnostics = {
+					-- 	layout_config = { prompt_position = "top", height = 0.88 },
+					-- 	layout_strategy = "vertical",
+					-- },
+					lsp_document_symbols = {
+						layout_strategy = "horizontal",
+						layout_config = {
+							horizontal = {
+								prompt_position = "top",
+								preview_width = 0.55,
+							},
+						},
+					},
+					lsp_dynamic_workspace_symbols = {
+						layout_strategy = "horizontal",
+						layout_config = {
+							horizontal = {
+								prompt_position = "top",
+								preview_width = 0.55,
+							},
+						},
 					},
 				},
 				extensions = {
