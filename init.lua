@@ -17,7 +17,6 @@ require("keymaps")
 
 require("lazy").setup({
 	spec = {
-		{ import = "core" },
 		{ import = "plugins" },
 	},
 	-- defaults = {
