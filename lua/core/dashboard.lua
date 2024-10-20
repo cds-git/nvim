@@ -34,7 +34,9 @@ return {
 			dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
 			-- dashboard.button("c", "  Config", ":e ~/.config/nvim/init.lua<CR>"),
 			-- dashboard.button("s", "  Restore Session", [[<cmd> lua require("persistence").load() <cr>]]),
-            dashboard.button("u", "  Lazy update", ":Lazy update<CR>"),
+            dashboard.button("m", "󱌣   Mason", ":Mason<CR>"),
+            dashboard.button("l", "󰒲  Lazy", ":Lazy<CR>"),
+            dashboard.button("u", "  Update plugins", ":Lazy sync<CR>"),
 			dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 		}
 
