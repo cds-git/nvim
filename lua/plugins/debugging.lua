@@ -1,102 +1,18 @@
 return {
 	"mfussenegger/nvim-dap",
 	event = "VeryLazy",
-	dependencies = {
-		{
-			"theHamsta/nvim-dap-virtual-text",
-			opts = {
-				enabled = true, -- enable this plugin (the default)
-				enabled_commands = true, -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
-				highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
-				highlight_new_as_changed = false, -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
-				show_stop_reason = true, -- show stop reason when stopped for exceptions
-				commented = false, -- prefix virtual text with comment string
-
-				-- experimental features:
-				virt_text_pos = "eol", -- position of virtual text, see `:h nvim_buf_set_extmark()`
-				all_frames = false, -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
-				virt_lines = false, -- show virtual lines instead of virtual text (will flicker!)
-				virt_text_win_col = nil, -- position the virtual text at a fixed window column (starting from the first text column) ,
-				-- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
-			},
-		},
-		{
-			"rcarriga/nvim-dap-ui",
-			dependencies = { "nvim-neotest/nvim-nio" },
-			keys = {
-				{
-					"<leader>du",
-					function()
-						require("dapui").toggle({})
-					end,
-					desc = "[DAP] UI",
-				},
-				{
-					"<leader>de",
-					function()
-						require("dapui").eval()
-					end,
-					desc = "[DAP] Eval",
-					mode = { "n", "v" },
-				},
-			},
-			opts = {},
-			config = function(_, opts)
-				local dap = require("dap")
-				local dapui = require("dapui")
-
-				dapui.setup(opts)
-
-				dap.listeners.before.attach.dapui_config = function()
-					dapui.open()
-				end
-				dap.listeners.before.launch.dapui_config = function()
-					dapui.open()
-				end
-				dap.listeners.before.event_terminated.dapui_config = function()
-					dapui.close()
-				end
-				dap.listeners.before.event_exited.dapui_config = function()
-					dapui.close()
-				end
-			end,
-		},
-	},
 	config = function()
 		local dap = require("dap")
 
-		local netcoredbg_install_dir = vim.fn.stdpath("data") .. "/mason/packages/netcoredbg/netcoredbg"
+        vim.keymap.set("n", "<F5>", dap.continue, {})
+		vim.keymap.set("n", "<F10>", dap.step_over, {})
+		vim.keymap.set("n", "<F11>", dap.step_into, {})
+		vim.keymap.set("n", "<F12>", dap.step_out, {})
+		-- vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
+		vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
 
-		if vim.fn.has("win32") == 1 then
-			netcoredbg_install_dir = netcoredbg_install_dir .. "/netcoredbg.exe"
-		end
+		require("utility.debug").register_net_dap()
 
-		dap.adapters.coreclr = {
-			type = "executable",
-			command = netcoredbg_install_dir,
-			args = { "--interpreter=vscode" },
-		}
-
-		dap.configurations.cs = {
-			{
-				type = "coreclr",
-				name = "Attach",
-				request = "attach",
-				processId = require("dap.utils").pick_process,
-			},
-			{
-				type = "coreclr",
-				name = "Launch - netcoredbg",
-				request = "launch",
-				console = "integratedTerminal",
-				program = function()
-					if vim.fn.confirm("Should I recompile first?", "&yes\n&no", 2) == 1 then
-						require("utility.omnisharp").dotnet_build_project()
-					end
-					return require("utility.omnisharp").dotnet_get_dll_path()
-				end,
-			},
-		}
 		vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#993939", bg = "#31353f" })
 		vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
 		vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bg = "#31353f" })
@@ -151,13 +67,6 @@ return {
 			end,
 			desc = "[DAP] Continue",
 		},
-		-- {
-		-- 	"<leader>da",
-		-- 	function()
-		-- 		require("dap").continue({ before = get_args })
-		-- 	end,
-		-- 	desc = "Run with Args",
-		-- },
 		{
 			"<leader>dR",
 			function()
@@ -249,16 +158,78 @@ return {
 			end,
 			desc = "[DAP] Widgets",
 		},
+		-- {
+		-- 	"<F5>",
+		-- 	function()
+		-- 		-- (Re-)reads launch.json if present
+		-- 		if vim.fn.filereadable(".vscode/launch.json") then
+		-- 			require("dap.ext.vscode").load_launchjs(nil, { coreclr = { "cs" } })
+		-- 		end
+		-- 		require("dap").continue()
+		-- 	end,
+		-- 	{ desc = "[DAP] Start debugging from launch.json" },
+		-- },
+	},
+	dependencies = {
 		{
-			"<F5>",
-			function()
-				-- (Re-)reads launch.json if present
-				if vim.fn.filereadable(".vscode/launch.json") then
-					require("dap.ext.vscode").load_launchjs(nil, { coreclr = { "cs" } })
+			"theHamsta/nvim-dap-virtual-text",
+			opts = {
+				enabled = true, -- enable this plugin (the default)
+				enabled_commands = true, -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
+				highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
+				highlight_new_as_changed = false, -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+				show_stop_reason = true, -- show stop reason when stopped for exceptions
+				commented = false, -- prefix virtual text with comment string
+
+				-- experimental features:
+				virt_text_pos = "eol", -- position of virtual text, see `:h nvim_buf_set_extmark()`
+				all_frames = false, -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+				virt_lines = false, -- show virtual lines instead of virtual text (will flicker!)
+				virt_text_win_col = nil, -- position the virtual text at a fixed window column (starting from the first text column) ,
+				-- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
+			},
+		},
+		{
+			"rcarriga/nvim-dap-ui",
+			dependencies = { "nvim-neotest/nvim-nio" },
+			keys = {
+				{
+					"<leader>du",
+					function()
+						require("dapui").toggle({})
+					end,
+					desc = "[DAP] UI",
+				},
+				{
+					"<leader>de",
+					function()
+						require("dapui").eval()
+					end,
+					desc = "[DAP] Eval",
+					mode = { "n", "v" },
+				},
+			},
+			opts = {},
+			config = function(_, opts)
+				local dap = require("dap")
+				local dapui = require("dapui")
+
+				dapui.setup(opts)
+
+				dap.listeners.before.attach.dapui_config = function()
+					dapui.open()
 				end
-				require("dap").continue()
+				dap.listeners.before.launch.dapui_config = function()
+					dapui.open()
+				end
+				dap.listeners.before.event_terminated.dapui_config = function()
+					dapui.close()
+				end
+				dap.listeners.before.event_exited.dapui_config = function()
+					dapui.close()
+				end
 			end,
-			{ desc = "[DAP] Start debugging from launch.json" },
 		},
 	},
+
 }

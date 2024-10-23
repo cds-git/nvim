@@ -62,4 +62,40 @@ M.dotnet_get_dll_path = function()
 	return vim.g["dotnet_last_dll_path"]
 end
 
+M.setup_debug = function()
+	local dap = require("dap")
+	local netcoredbg_install_dir = vim.fn.stdpath("data") .. "/mason/packages/netcoredbg/netcoredbg"
+
+	if vim.fn.has("win32") == 1 then
+		netcoredbg_install_dir = netcoredbg_install_dir .. "/netcoredbg.exe"
+	end
+
+	dap.adapters.coreclr = {
+		type = "executable",
+		command = netcoredbg_install_dir,
+		args = { "--interpreter=vscode" },
+	}
+
+	dap.configurations.cs = {
+		{
+			type = "coreclr",
+			name = "Attach",
+			request = "attach",
+			processId = require("dap.utils").pick_process,
+		},
+		{
+			type = "coreclr",
+			name = "Launch - netcoredbg",
+			request = "launch",
+			console = "integratedTerminal",
+			program = function()
+				if vim.fn.confirm("Should I recompile first?", "&yes\n&no", 2) == 1 then
+					M.dotnet_build_project()
+				end
+				return M.dotnet_get_dll_path()
+			end,
+		},
+	}
+end
+
 return M
