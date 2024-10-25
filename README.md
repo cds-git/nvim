@@ -10,4 +10,3 @@ Greatest neovim config known to mankind
     - Add [markdown-toc](https://github.com/jonschlinkert/markdown-toc)
     - Folding
     - outline
-- Add hex color highlight

@@ -111,24 +111,26 @@ return {
 				{
 					-- lsp
 					name = "nvim_lsp",
-					priority = 10,
+					priority = 1000,
 				},
 				{
 					-- snippets
 					name = "luasnip",
-					priority = 7,
+					priority = 750,
 					max_item_count = 5,
 				},
+				{ name = "easy-dotnet" },
+				{ name = "vim-dadbod-completion", priority = 700 },
 				{
 					-- text within current buffer
 					name = "buffer",
-					priority = 7,
+					priority = 500,
 					max_item_count = 5,
 				},
 				{
 					-- file system paths
 					name = "path",
-					priority = 5,
+					priority = 250,
 					max_item_count = 10,
 				},
 			}),
