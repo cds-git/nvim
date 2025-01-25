@@ -17,48 +17,30 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set(modes, keys, func, { buffer = ev.buf, desc = desc })
 		end
 
-		local telescope = require("telescope.builtin")
-
 		-- Navigation
-		-- map("n", "gd", vim.lsp.buf.definition, "Go to LSP definitions")
-		-- map("n", "gi", vim.lsp.buf.implementation, "Go to LSP implementations")
 		map("n", "gr", vim.lsp.buf.references, "Show LSP references")
-		map("n", "gi", telescope.lsp_implementations, "Go to LSP implementations")
-		map("n", "gd", telescope.lsp_definitions, "Show LSP definitions")
-		-- map("n", "gr", telescope.lsp_references, "Show LSP references")
-
-		-- map("n", "gD", vim.lsp.buf.type_definition, "Go to declaration")
+        -- map("n", "gd", vim.lsp.buf.definition, "Go to LSP definitions")
+        -- map("n", "gi", vim.lsp.buf.implementation, "Go to LSP implementations")
 		map("n", "gD", vim.lsp.buf.declaration, "Go to LSP declaration")
-		map("n", "gt", telescope.lsp_type_definitions, "Go to LSP type definitions")
+        -- map("n", "gD", vim.lsp.buf.type_definition, "Go to declaration")
 
 		-- Diagnostics and documentations
 		map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
 		map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
 		map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
 		map("i", "<c-k>", vim.lsp.buf.signature_help, "Show signature Help")
-		map("n", "<leader>ds", telescope.lsp_document_symbols, "Document symbols")
-
-		map("n", "<leader>ld", function()
-			telescope.diagnostics({ bufnr = 0 })
-		end, "Show buffer diagnostics")
 
 		-- LSP actions
 		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "[LSP] Rename")
-
 		map("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP")
 
 		-- workspace
-		map("n", "<leader>ws", telescope.lsp_dynamic_workspace_symbols, "Workspace symbols")
 		map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
 		map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder")
 		map("n", "<leader>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, "List workspace folders")
-
-		map("n", "<leader>th", function()
-			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-		end, "Toggle inlay hints")
 	end,
 })
 
