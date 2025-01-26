@@ -16,9 +16,9 @@ M.capabilities = vim.lsp.protocol.make_client_capabilities()
 -- }
 
 -- Add capabilities required for LSP based completions
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+local status_ok, cmp = pcall(require, "blink.cmp")
 if status_ok then
-	M.capabilities = vim.tbl_deep_extend("force", M.capabilities, cmp_nvim_lsp.default_capabilities())
+	M.capabilities = vim.tbl_deep_extend("force", M.capabilities, cmp.get_lsp_capabilities())
 end
 
 return M

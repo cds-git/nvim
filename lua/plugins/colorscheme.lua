@@ -21,7 +21,7 @@ return {
 					end,
 				},
 				integrations = {
-					-- cmp = true,
+					cmp = true,
 					blink_cmp = true,
 					gitsigns = true,
 					nvimtree = true,

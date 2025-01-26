@@ -1,11 +1,3 @@
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "rounded",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = "rounded",
-})
-
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -19,10 +11,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Navigation
 		map("n", "gr", vim.lsp.buf.references, "Show LSP references")
-        -- map("n", "gd", vim.lsp.buf.definition, "Go to LSP definitions")
-        -- map("n", "gi", vim.lsp.buf.implementation, "Go to LSP implementations")
+		-- map("n", "gd", vim.lsp.buf.definition, "Go to LSP definitions")
+		-- map("n", "gi", vim.lsp.buf.implementation, "Go to LSP implementations")
 		map("n", "gD", vim.lsp.buf.declaration, "Go to LSP declaration")
-        -- map("n", "gD", vim.lsp.buf.type_definition, "Go to declaration")
+		-- map("n", "gD", vim.lsp.buf.type_definition, "Go to declaration")
 
 		-- Diagnostics and documentations
 		map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
@@ -41,6 +33,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<leader>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, "List workspace folders")
+
+		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+		vim.lsp.handlers["textDocument/signatureHelp"] =
+			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 	end,
 })
 
@@ -92,13 +88,17 @@ return {
 		end,
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			{ "antosha417/nvim-lsp-file-operations", config = true },
+			{ "saghen/blink.cmp" },
+			-- { "antosha417/nvim-lsp-file-operations", config = true },
 			{ "williamboman/mason.nvim", config = true, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", config = true, cmd = { "LspInstall", "LspUninstall" } },
 			{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
 			{
 				"folke/lazydev.nvim",
 				ft = "lua", -- only load on lua files
+				dependencies = {
+					{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+				},
 				opts = {
 					library = {
 						-- See the configuration section for more details
@@ -107,7 +107,6 @@ return {
 					},
 				},
 			},
-			{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 			-- enables omnisharp goto definition with decompliation
 			{ "Hoffs/omnisharp-extended-lsp.nvim", enabled = false, lazy = true },
 			-- { "seblj/nvim-lsp-extras" },
