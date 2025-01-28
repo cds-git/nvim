@@ -8,25 +8,12 @@ return {
 			formatters = {
 				file = {
 					filename_first = true,
+					truncate = 500,
 				},
 			},
-			layouts = {
-				default = {
-					layout = {
-						box = "horizontal",
-						width = 0.90,
-						height = 0.90,
-						{
-							box = "vertical",
-							border = "rounded",
-							title = "{source} {live}",
-							title_pos = "center",
-							{ win = "input", height = 1, border = "bottom" },
-							{ win = "list", border = "none" },
-						},
-						{ win = "preview", border = "rounded", width = 0.5 },
-					},
-				},
+			sources = {
+				files = { layout = { preset = "vertical", preview = false } },
+				recent = { layout = { preset = "vertical", preview = false } },
 			},
 			win = {
 				-- input window
