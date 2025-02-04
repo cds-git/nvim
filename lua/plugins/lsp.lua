@@ -25,7 +25,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- LSP actions
 		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
 		map("n", "<leader>rn", vim.lsp.buf.rename, "[LSP] Rename")
-		map("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP")
+		map("n", "<leader>rS", ":LspRestart<CR>", "Restart LSP")
+		map("n", "<leader>rs", ":Roslyn restart<CR>", "Restart Roslyn LSP")
+		map("n", "<leader>rt", ":Roslyn target<CR>", "Select solution file with Roslyn LSP")
 
 		-- workspace
 		map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
@@ -89,7 +91,6 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "saghen/blink.cmp" },
-			-- { "antosha417/nvim-lsp-file-operations", config = true },
 			{ "williamboman/mason.nvim", config = true, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", config = true, cmd = { "LspInstall", "LspUninstall" } },
 			{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
@@ -101,15 +102,10 @@ return {
 				},
 				opts = {
 					library = {
-						-- See the configuration section for more details
-						-- Load luvit types when the `vim.uv` word is found
 						{ path = "luvit-meta/library", words = { "vim%.uv" } },
 					},
 				},
 			},
-			-- enables omnisharp goto definition with decompliation
-			{ "Hoffs/omnisharp-extended-lsp.nvim", enabled = false, lazy = true },
-			-- { "seblj/nvim-lsp-extras" },
 			{ -- Roslyn LSP for C#/.NET instead of omnisharp
 				"seblj/roslyn.nvim",
 				enabled = true,
