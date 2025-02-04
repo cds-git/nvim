@@ -11,7 +11,7 @@ return {
 		-- vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, {})
 		vim.keymap.set("n", "<F2>", require("dap.ui.widgets").hover, {})
 
-		require("utility.debug").register_net_dap()
+		require("utility.dotnet").setup_debug()
 
 		vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#993939", bg = "#31353f" })
 		vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
