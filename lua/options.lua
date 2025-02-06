@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- set.relative line numbers for jumping
 vim.opt.relativenumber = true
