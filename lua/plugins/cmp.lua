@@ -76,13 +76,19 @@ return {
 		},
 		sources = {
 			default = { "lsp", "snippets", "buffer", "path" },
+			per_filetype = {
+				sql = { "snippets", "dadbod", "buffer" },
+			},
+			providers = {
+				dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+			},
 		},
 		cmdline = {
 			completion = { menu = { auto_show = true } },
 			keymap = {
 				["<Tab>"] = { "show", "accept" },
 				["<Up>"] = { "select_prev" },
-                ["<Down>"] = { "select_next" },
+				["<Down>"] = { "select_next" },
 			},
 		},
 	},
