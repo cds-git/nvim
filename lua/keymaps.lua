@@ -6,7 +6,7 @@ map("n", "<leader>ln", "<cmd>set nu!<CR>", { desc = "Toggle line number" })
 map("n", "<leader>lrn", "<cmd>set rnu!<CR>", { desc = "Toggle relative number" })
 
 -- File mappings
-map("n", "<C-s>", "<cmd>w<CR>", { desc = "File save" })
+map("n", "<leader>sf>", "<cmd>w<CR>", { desc = "Save File" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
 
 -- Move Lines

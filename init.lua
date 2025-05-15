@@ -15,6 +15,7 @@ require("options")
 require("autocommands")
 require("keymaps")
 
+require("utility.mason_install_all")
 require("lazy").setup({
 	spec = {
 		{ import = "plugins" },

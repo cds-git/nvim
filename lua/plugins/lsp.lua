@@ -36,7 +36,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, "List workspace folders")
 
-		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+		vim.lsp.handlers["textDocument/hover"] =
+			vim.lsp.with(vim.lsp.handlers["textDocument/hover"], { border = "rounded" })
 		vim.lsp.handlers["textDocument/signatureHelp"] =
 			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 	end,
@@ -65,34 +66,42 @@ vim.diagnostic.config({
 return {
 	{
 		"neovim/nvim-lspconfig",
-		opts = function(_, opts)
-			return vim.tbl_extend("force", opts, {
-				servers = {
-					lua_ls = { before_init = require("lazydev.lsp").before_init },
-				},
-			})
-		end,
-		config = function(_, opts)
-			require("mason-lspconfig").setup_handlers({
-				function(server)
-					local server_status_ok, server_config = pcall(require, "langs." .. server)
-					if not server_status_ok then
-						server_config = {}
-					end
-
-					local config = vim.tbl_deep_extend("force", {
-						capabilities = require("utility.capabilities").capabilities,
-						on_attach = require("utility.on_attach").on_attach,
-					}, server_config)
-					require("lspconfig")[server].setup(config)
-				end,
-			})
-		end,
+		-- opts = function(_, opts)
+		--     return vim.tbl_extend("force", opts, {
+		--         servers = {
+		--             lua_ls = { before_init = require("lazydev.lsp").before_init },
+		--         },
+		--     })
+		-- end,
+		-- config = function(_, opts)
+		--     require("mason-lspconfig").setup_handlers({
+		--         function(server)
+		--             local server_status_ok, server_config = pcall(require, "langs." .. server)
+		--             if not server_status_ok then
+		--                 server_config = {}
+		--             end
+		--
+		--             local config = vim.tbl_deep_extend("force", {
+		--                 capabilities = require("utility.capabilities").capabilities,
+		--                 on_attach = require("utility.on_attach").on_attach,
+		--             }, server_config)
+		--             require("lspconfig")[server].setup(config)
+		--         end,
+		--     })
+		-- end,
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "saghen/blink.cmp" },
-			{ "williamboman/mason.nvim", config = true, cmd = "Mason" },
-			{ "williamboman/mason-lspconfig.nvim", config = true, cmd = { "LspInstall", "LspUninstall" } },
+			{
+				"mason-org/mason.nvim",
+				opts = {
+					registries = {
+						"github:mason-org/mason-registry",
+						"github:Crashdummyy/mason-registry",
+					},
+				},
+			},
+			-- { "mason-org/mason-lspconfig.nvim", config = true,       cmd = { "LspInstall", "LspUninstall" } },
 			{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
 			{
 				"folke/lazydev.nvim",
@@ -110,34 +119,34 @@ return {
 				"seblj/roslyn.nvim",
 				enabled = true,
 				config = function()
-					require("roslyn").setup({
-						config = {
-							capabilities = require("utility.capabilities").capabilities,
-							on_attach = require("utility.on_attach").on_attach,
-							settings = {
-								["csharp|background_analysis"] = {
-									dotnet_compiler_diagnostics_scope = "fullSolution",
-								},
-								["csharp|inlay_hints"] = {
-									csharp_enable_inlay_hints_for_implicit_object_creation = true,
-									csharp_enable_inlay_hints_for_implicit_variable_types = true,
-									csharp_enable_inlay_hints_for_lambda_parameter_types = true,
-									csharp_enable_inlay_hints_for_types = true,
-									dotnet_enable_inlay_hints_for_indexer_parameters = true,
-									dotnet_enable_inlay_hints_for_literal_parameters = true,
-									dotnet_enable_inlay_hints_for_object_creation_parameters = true,
-									dotnet_enable_inlay_hints_for_other_parameters = true,
-									dotnet_enable_inlay_hints_for_parameters = true,
-									dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
-									dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
-									dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
-								},
-								["csharp|code_lens"] = {
-									dotnet_enable_references_code_lens = true,
-								},
-							},
-						},
-					})
+				    require("roslyn").setup({
+				        config = {
+				            capabilities = require("utility.capabilities").capabilities,
+				            on_attach = require("utility.on_attach").on_attach,
+				            settings = {
+				                ["csharp|background_analysis"] = {
+				                    dotnet_compiler_diagnostics_scope = "fullSolution",
+				                },
+				                ["csharp|inlay_hints"] = {
+				                    csharp_enable_inlay_hints_for_implicit_object_creation = true,
+				                    csharp_enable_inlay_hints_for_implicit_variable_types = true,
+				                    csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+				                    csharp_enable_inlay_hints_for_types = true,
+				                    dotnet_enable_inlay_hints_for_indexer_parameters = true,
+				                    dotnet_enable_inlay_hints_for_literal_parameters = true,
+				                    dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+				                    dotnet_enable_inlay_hints_for_other_parameters = true,
+				                    dotnet_enable_inlay_hints_for_parameters = true,
+				                    dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+				                    dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+				                    dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+				                },
+				                ["csharp|code_lens"] = {
+				                    dotnet_enable_references_code_lens = true,
+				                },
+				            },
+				        },
+				    })
 				end,
 			},
 		},

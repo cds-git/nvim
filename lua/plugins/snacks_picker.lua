@@ -27,6 +27,50 @@ return {
 		},
 	},
 	keys = {
+		-- LSP
+		{
+			"gd",
+			function()
+				Snacks.picker.lsp_definitions()
+			end,
+			desc = "Goto Definition",
+		},
+		-- {
+		-- 	"gr",
+		-- 	function()
+		-- 		Snacks.picker.lsp_references()
+		-- 	end,
+		-- 	nowait = true,
+		-- 	desc = "References",
+		-- },
+		{
+			"gi",
+			function()
+				Snacks.picker.lsp_implementations()
+			end,
+			desc = "Goto Implementation",
+		},
+		{
+			"gt",
+			function()
+				Snacks.picker.lsp_type_definitions()
+			end,
+			desc = "Goto Type Definition",
+		},
+		{
+			"<leader>ds",
+			function()
+				Snacks.picker.lsp_symbols()
+			end,
+			desc = "LSP Symbols",
+		},
+		{
+			"<leader>ws",
+			function()
+				Snacks.picker.lsp_workspace_symbols()
+			end,
+			desc = "Workspace LSP Symbols",
+		},
 		{
 			"<leader>:",
 			function()
@@ -227,50 +271,6 @@ return {
 				Snacks.picker.projects()
 			end,
 			desc = "Projects",
-		},
-		-- LSP
-		{
-			"gd",
-			function()
-				Snacks.picker.lsp_definitions()
-			end,
-			desc = "Goto Definition",
-		},
-		-- {
-		-- 	"gr",
-		-- 	function()
-		-- 		Snacks.picker.lsp_references()
-		-- 	end,
-		-- 	nowait = true,
-		-- 	desc = "References",
-		-- },
-		{
-			"gi",
-			function()
-				Snacks.picker.lsp_implementations()
-			end,
-			desc = "Goto Implementation",
-		},
-		{
-			"gt",
-			function()
-				Snacks.picker.lsp_type_definitions()
-			end,
-			desc = "Goto Type Definition",
-		},
-		{
-			"<leader>ds",
-			function()
-				Snacks.picker.lsp_symbols()
-			end,
-			desc = "LSP Symbols",
-		},
-		{
-			"<leader>ws",
-			function()
-				Snacks.picker.lsp_workspace_symbols()
-			end,
-			desc = "Workspace LSP Symbols",
 		},
 	},
 }
