@@ -1,0 +1,62 @@
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+	callback = function(ev)
+		-- Buffer local mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local map = function(modes, keys, func, desc)
+			vim.keymap.set(modes, keys, func, { buffer = ev.buf, desc = desc })
+		end
+
+		-- Navigation
+		map("n", "gr", vim.lsp.buf.references, "Show LSP references")
+		map("n", "gD", vim.lsp.buf.declaration, "Go to LSP declaration")
+
+		-- Diagnostics and documentations
+		map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
+		map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
+		map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
+		map("i", "<c-k>", vim.lsp.buf.signature_help, "Show signature Help")
+
+		-- LSP actions
+		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
+		map("n", "<leader>rn", vim.lsp.buf.rename, "[LSP] Rename")
+		map("n", "<leader>rS", ":LspRestart<CR>", "Restart LSP")
+		map("n", "<leader>rs", ":Roslyn restart<CR>", "Restart Roslyn LSP")
+		map("n", "<leader>rt", ":Roslyn target<CR>", "Select solution file with Roslyn LSP")
+
+		-- workspace
+		map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
+		map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder")
+		map("n", "<leader>wl", function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, "List workspace folders")
+
+		vim.lsp.handlers["textDocument/hover"] =
+			vim.lsp.with(vim.lsp.handlers["textDocument/hover"], { border = "rounded" })
+		vim.lsp.handlers["textDocument/signatureHelp"] =
+			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufEnter" }, {
+	pattern = { "*.props" },
+	callback = function()
+		vim.bo.filetype = "xml"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufEnter" }, {
+	pattern = { "*.component.html" },
+	callback = function()
+		vim.bo.filetype = "angular"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufEnter" }, {
+	pattern = { "*.json" },
+	callback = function()
+		vim.bo.filetype = "jsonc"
+	end,
+})
