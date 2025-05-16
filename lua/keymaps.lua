@@ -1,3 +1,11 @@
+-- Remove new default LSP keymaps
+vim.keymap.del("n", "grn")
+vim.keymap.del("n", "gra")
+vim.keymap.del("n", "grr")
+vim.keymap.del("n", "gri")
+vim.keymap.del("n", "gO")
+vim.keymap.del("i", "<C-s>")
+
 local map = vim.keymap.set
 
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General clear highlights" })
@@ -6,7 +14,7 @@ map("n", "<leader>ln", "<cmd>set nu!<CR>", { desc = "Toggle line number" })
 map("n", "<leader>lrn", "<cmd>set rnu!<CR>", { desc = "Toggle relative number" })
 
 -- File mappings
-map("n", "<leader>sf>", "<cmd>w<CR>", { desc = "Save File" })
+map("n", "<C-s>", "<cmd>w<CR>", { desc = "Save File" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
 
 -- Move Lines
@@ -50,3 +58,4 @@ map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window w
 -- map("i", "<C-l>", "<Right>", { desc = "Move right" })
 -- map("i", "<C-j>", "<Down>", { desc = "Move down" })
 -- map("i", "<C-k>", "<Up>", { desc = "Move up" })
+
