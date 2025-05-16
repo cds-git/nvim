@@ -59,7 +59,6 @@ vim.opt.cursorline = true
 vim.opt.termguicolors = true
 
 -- Decrease update time
-vim.o.timeout = true
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
@@ -95,7 +94,7 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
 		},
 	},
-	virtual_text = true,
+	virtual_text = false,
 	virtual_lines = false,
 	-- virtual_lines = {
 	--     current_line = true,
