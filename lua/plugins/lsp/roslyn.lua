@@ -31,4 +31,8 @@ return {
 			},
 		})
 	end,
+	dependencies = {
+		{ "saghen/blink.cmp" },
+		{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
+	},
 }

@@ -32,11 +32,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("n", "<leader>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, "List workspace folders")
-
-		vim.lsp.handlers["textDocument/hover"] =
-			vim.lsp.with(vim.lsp.handlers["textDocument/hover"], { border = "rounded" })
-		vim.lsp.handlers["textDocument/signatureHelp"] =
-			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 	end,
 })
 

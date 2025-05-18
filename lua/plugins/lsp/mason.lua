@@ -16,7 +16,7 @@ return {
 				"html-lsp",
 				"css-lsp",
 				"angular-language-server",
-				"eslint-lsp",
+				-- "eslint-lsp",
 				"vtsls",
 				"bash-language-server",
 				"yaml-language-server",
