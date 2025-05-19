@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 						previous_parameter = "<C-h>",
 						close_signature = "<A-s>",
 					},
-					display_automatically = true, -- Uses trigger characters to automatically display the signature overloads when typing a method signature
+					display_automatically = false, -- Uses trigger characters to automatically display the signature overloads when typing a method signature
 				})
 			end
 		end
@@ -41,8 +41,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Diagnostics and documentations
 		-- map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
 		map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
-		map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
-		map("i", "<c-k>", vim.lsp.buf.signature_help, "Show signature Help")
+		-- map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
+		-- map("i", "<c-k>", vim.lsp.buf.signature_help, "Show signature Help")
+		map("n", "<leader>sh", "<cmd>LspOverloadsSignature<CR>", "Show signature help")
+		map("i", "<c-k>", "<cmd>LspOverloadsSignature<CR>", "Show signature Help")
 
 		-- LSP actions
 		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
