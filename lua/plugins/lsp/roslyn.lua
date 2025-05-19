@@ -4,11 +4,20 @@ return {
 	config = function()
 		require("roslyn").setup({
 			config = {
-				capabilities = require("utility.capabilities").capabilities,
-				on_attach = require("utility.on_attach").on_attach,
+				-- capabilities = require("utility.capabilities").capabilities,
+				-- on_attach = require("utility.on_attach").on_attach,
 				settings = {
 					["csharp|background_analysis"] = {
+						dotnet_analyzer_diagnostics_scope = "fullSolution",
 						dotnet_compiler_diagnostics_scope = "fullSolution",
+					},
+					["csharp|code_lens"] = {
+						dotnet_enable_references_code_lens = true,
+					},
+					["csharp|completion"] = {
+						dotnet_provide_regex_completions = true,
+						dotnet_show_completion_items_from_unimported_namespaces = true,
+						dotnet_show_name_completion_suggestions = true,
 					},
 					["csharp|inlay_hints"] = {
 						csharp_enable_inlay_hints_for_implicit_object_creation = true,
@@ -24,8 +33,8 @@ return {
 						dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
 						dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
 					},
-					["csharp|code_lens"] = {
-						dotnet_enable_references_code_lens = true,
+					["csharp|symbol_search"] = {
+						dotnet_search_reference_assemblies = true,
 					},
 				},
 			},
@@ -33,6 +42,5 @@ return {
 	end,
 	dependencies = {
 		{ "saghen/blink.cmp" },
-		{ "Issafalcon/lsp-overloads.nvim", event = "BufReadPre" },
 	},
 }

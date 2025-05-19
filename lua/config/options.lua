@@ -1,12 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
-vim.lsp.enable({
-	"lua",
-	"yaml",
-	"marksman",
-	"angular",
-})
 -- Set highlight on search
 vim.opt.hlsearch = true
 

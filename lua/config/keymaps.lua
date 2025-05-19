@@ -58,4 +58,3 @@ map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window w
 -- map("i", "<C-l>", "<Right>", { desc = "Move right" })
 -- map("i", "<C-j>", "<Down>", { desc = "Move down" })
 -- map("i", "<C-k>", "<Up>", { desc = "Move up" })
-
