@@ -4,8 +4,6 @@ return {
 	config = function()
 		require("roslyn").setup({
 			config = {
-				-- capabilities = require("utility.capabilities").capabilities,
-				-- on_attach = require("utility.on_attach").on_attach,
 				settings = {
 					["csharp|background_analysis"] = {
 						dotnet_analyzer_diagnostics_scope = "fullSolution",
