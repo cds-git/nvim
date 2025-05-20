@@ -102,7 +102,7 @@ vim.diagnostic.config({
 })
 
 -- Disable log because it's slowing down Neovim
--- vim.lsp.log_levels = "OFF"
+vim.lsp.log_levels = "OFF"
 
 -- TODO: Find out if settings below are needed
 
