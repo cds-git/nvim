@@ -1,117 +1,220 @@
--- TODO: Get colors from a theme colorscheme
-local colors = {
-	bg = "#202328",
-	fg = "#bbc2cf",
-	yellow = "#ECBE7B",
-	cyan = "#008080",
-	darkblue = "#081633",
-	green = "#98be65",
-	orange = "#FF8800",
-	violet = "#a9a1e1",
-	magenta = "#c678dd",
-	blue = "#51afef",
-	red = "#ec5f67",
-}
-
 return {
-	{
-		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({
-				options = {
-					theme = "auto",
-					component_separators = "",
-					section_separators = "",
-					globalstatus = true,
-					disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
-				},
-				sections = {
-					lualine_a = { { "mode", icon = "" } },
-					lualine_b = {
-						"grapple",
-					},
-					lualine_c = {
-						{
-							-- Lsp server name .
-							function()
-								local clients = vim.lsp.get_clients()
-
-								if next(clients) == nil then
-									return ""
-								end
-
-								return " "
-
-								-- local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
-								-- local c = {}
-								--
-								-- for _, client in ipairs(clients) do
-								-- 	local filetypes = client.config.filetypes
-								-- 	if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-								-- 		if client.name == "omnisharp" then
-								-- 			table.insert(c, "󰈸")
-								-- 		elseif client.name == "angularls" then
-								-- 			table.insert(c, "")
-								-- 		elseif client.name == "tsserver" then
-								-- 			table.insert(c, "")
-								-- 		elseif client.name == "html" then
-								-- 			table.insert(c, "")
-								-- 		elseif client.name == "cssls" then
-								-- 			table.insert(c, "")
-								-- 		else
-								-- 			table.insert(c, client.name)
-								-- 		end
-								-- 	end
-								-- end
-								--
-								-- return table.concat(c, "|")
-							end,
-							-- icon = " ",
-							-- color = { fg = "#ffffff", gui = "bold" },
-						},
-						{
-							"diagnostics",
-							sources = { "nvim_diagnostic" },
-							symbols = { error = " ", warn = " ", info = " ", hint = "" },
-							diagnostics_color = {
-								color_error = { fg = colors.red },
-								color_warn = { fg = colors.yellow },
-								color_info = { fg = colors.cyan },
-							},
-						},
-					},
-					lualine_x = {
-						{
-							"diff",
-							-- symbols = { added = " ", modified = " ", removed = " " },
-							symbols = { added = "+", modified = "~", removed = "-" },
-							diff_color = {
-								added = { fg = colors.green },
-								modified = { fg = colors.orange },
-								removed = { fg = colors.red },
-							},
-						},
-						{
-							"branch",
-							fmt = function(str)
-								if string.len(str) <= 32 then
-									return str
-								end
-								return string.sub(str, 1, 32) .. "..."
-							end,
-						},
-					},
-					lualine_y = {
-						"location",
-					},
-					lualine_z = {
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ "filename", file_status = true, padding = { left = 0, right = 1 } },
-					},
-				},
-			})
-		end,
+	"nvim-lualine/lualine.nvim",
+	event = "VeryLazy",
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+		-- {
+		-- 	"cameronr/lualine-pretty-path",
+		-- 	-- dev = true,
+		-- },
 	},
+	-- enabled = vim.o.laststatus ~= 0,
+	opts = function()
+		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+
+		--- From: https://github.com/nvim-lualine/lualine.nvim/wiki/Component-snippets
+		--- @param trunc_width number trunctates component when screen width is less then trunc_width
+		--- @param trunc_len number truncates component to trunc_len number of chars
+		--- @param hide_width number hides component when window width is smaller then hide_width
+		--- @param no_ellipsis boolean whether to disable adding '...' at end after truncation
+		--- return function that can format the component accordingly
+		local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
+			return function(str)
+				local win_width = vim.o.columns
+				if hide_width and win_width < hide_width then
+					return ""
+				elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
+					return str:sub(1, trunc_len) .. (no_ellipsis and "" or "…")
+				end
+				return str
+			end
+		end
+
+		-- Show LSP status, borrowed from Heirline cookbook
+		-- https://github.com/rebelot/heirline.nvim/blob/master/cookbook.md#lsp
+		local function lsp_status_all()
+			local haveServers = false
+			local names = {}
+			for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+				-- msg = ' '
+				haveServers = true
+				table.insert(names, server.name)
+			end
+			if not haveServers then
+				return ""
+			end
+			if vim.g.custom_lualine_show_lsp_names then
+				return " " .. table.concat(names, ",")
+			end
+			return " "
+		end
+
+		-- Override 'encoding': Don't display if encoding is UTF-8.
+		local encoding_only_if_not_utf8 = function()
+			local ret, _ = (vim.bo.fenc or vim.go.enc):gsub("^utf%-8$", "")
+			return ret
+		end
+		-- fileformat: Don't display if &ff is unix.
+		local fileformat_only_if_not_unix = function()
+			local ret, _ = vim.bo.fileformat:gsub("^unix$", "")
+			return ret
+		end
+
+		-- Snacks.toggle({
+		-- 	name = "lualine symbols",
+		-- 	get = function()
+		-- 		return vim.b.trouble_lualine ~= false
+		-- 	end,
+		-- 	set = function(state)
+		-- 		vim.b.trouble_lualine = state
+		-- 	end,
+		-- }):map("<leader>vl")
+
+		Snacks.toggle({
+			name = "lualine lsp names",
+			get = function()
+				return vim.g.custom_lualine_show_lsp_names
+			end,
+			set = function(state)
+				vim.g.custom_lualine_show_lsp_names = state
+			end,
+		}):map("<leader>uS")
+
+		-- Snacks.toggle({
+		-- 	name = "lualine session name",
+		-- 	get = function()
+		-- 		return vim.g.custom_lualine_show_session_name
+		-- 	end,
+		-- 	set = function(state)
+		-- 		vim.g.custom_lualine_show_session_name = state
+		-- 	end,
+		-- }):map("<leader>vs")
+
+		return {
+			options = {
+				-- When theme is set to auto, Lualine uses dofile instead of require
+				-- to load the theme. We need the theme to be loaded via require since
+				-- we modify the cached singleton in tokyonight's config function to
+				-- add different colors for the x section
+				-- theme = function()
+				-- 	if vim.g.colors_name:match("^catppuccin") then
+				-- 		return require("lualine.themes." .. vim.g.colors_name)
+				-- 	end
+				-- 	-- fall through case just needed for telescope theme browser
+				-- 	return require("lualine.utils.loader").load_theme("auto")
+				-- end,
+				theme = "auto",
+				-- component_separators = { left = "╲", right = "╱" },
+				component_separators = "",
+				-- section_separators = { left = "", right = "" },
+				section_separators = "",
+				globalstatus = true,
+				-- ignore_focus = { "trouble" },
+				disabled_filetypes = {
+					statusline = { "dashboard", "alpha", "starter", "snacks_dashboard", "neo-tree" },
+				},
+			},
+			sections = {
+				lualine_a = { { "mode", icon = "" } },
+				lualine_b = { "grapple" },
+				lualine_c = {
+					{
+						"branch",
+						fmt = trunc(150, 17, 65),
+						separator = "/",
+					},
+					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+					{ "filename", file_status = true, padding = { left = 0, right = 1 } },
+				},
+				lualine_x = {
+					-- {
+					-- 	function()
+					-- 		return require("auto-session.lib").current_session_name(true)
+					-- 	end,
+					-- 	cond = function()
+					-- 		return vim.g.custom_lualine_show_session_name
+					-- 	end,
+					-- },
+					{
+						"diagnostics",
+						-- symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
+						-- symbols = { error = " ", warn = " ", info = " ", hint = " " },
+						symbols = { error = " ", warn = " ", info = " ", hint = "" },
+						separator = "",
+					},
+					{
+						"diff",
+						symbols = {
+							added = " ",
+							modified = " ",
+							removed = " ",
+						},
+						fmt = trunc(0, 0, 60, true),
+						separator = "",
+					},
+					{
+						function()
+							return "recording @" .. vim.fn.reg_recording()
+						end,
+						cond = function()
+							return vim.fn.reg_recording() ~= ""
+						end,
+						color = { fg = "#ff007c" },
+						separator = "",
+					},
+					{
+						lazy_status.updates,
+						cond = lazy_status.has_updates,
+						-- color = { fg = '#3d59a1' },
+						fmt = trunc(0, 0, 160, true), -- hide when window is < 100 columns
+						separator = "",
+					},
+					-- require("util.lualine").cmp_source("supermaven", "󰰣"),
+					{
+						lsp_status_all,
+						fmt = trunc(0, 8, 140, false),
+						separator = "",
+					},
+					{
+						encoding_only_if_not_utf8,
+						fmt = trunc(0, 0, 140, true), -- hide when window is < 80 columns
+						separator = "",
+					},
+					{
+						fileformat_only_if_not_unix,
+						fmt = trunc(0, 0, 140, true), -- hide when window is < 80 columns
+						separator = "",
+					},
+				},
+				lualine_y = {
+					{ "progress", fmt = trunc(0, 0, 40, true) },
+				},
+				lualine_z = {
+					{ "location", fmt = trunc(0, 0, 80, true) },
+				},
+			},
+			inactive_sections = {
+				lualine_c = {
+					{
+						-- "pretty_path",
+						-- 'filename',
+						-- symbols = {
+						--   modified = '+', -- Text to show when the file is modified.
+						--   readonly = '', -- Text to show when the file is non-modifiable or readonly.
+						-- },
+					},
+				},
+			},
+			extensions = {
+				"lazy",
+				"mason",
+				"neo-tree",
+				"nvim-dap-ui",
+				"oil",
+				"quickfix",
+				"toggleterm",
+				-- "trouble",
+			},
+		}
+	end,
 }
