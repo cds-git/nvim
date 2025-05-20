@@ -3,8 +3,36 @@
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 	callback = function(args)
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+		-- Buffer local mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local map = function(modes, keys, func, desc)
+			vim.keymap.set(modes, keys, func, { buffer = args.buf, desc = desc })
+		end
 
+		-- Navigation
+		map("n", "gr", vim.lsp.buf.references, "Show LSP references")
+		map("n", "gD", vim.lsp.buf.declaration, "Go to LSP declaration")
+
+		-- Diagnostics and documentations
+		map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
+		map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
+		map("i", "<c-k>", vim.lsp.buf.signature_help, "Show signature Help")
+
+		-- LSP actions
+		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
+		map("n", "<leader>rn", vim.lsp.buf.rename, "[LSP] Rename")
+		map("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP")
+		map("n", "<leader>rR", ":Roslyn restart<CR>", "Restart Roslyn LSP")
+		map("n", "<leader>rt", ":Roslyn target<CR>", "Select solution file with Roslyn LSP")
+
+		-- workspace
+		map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
+		map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder")
+		map("n", "<leader>wl", function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, "List workspace folders")
+
+		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		if client:supports_method("textDocument/signatureHelp") then
 			local lsp_overloads_ok, lsp_overloads = pcall(require, "lsp-overloads")
 			if lsp_overloads_ok then
@@ -25,40 +53,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					},
 					display_automatically = false, -- Uses trigger characters to automatically display the signature overloads when typing a method signature
 				})
+
+				vim.keymap.set(
+					"n",
+					"<leader>sh",
+					"<cmd>LspOverloadsSignature<CR>",
+					{ buffer = args.buf, desc = "Show signature help", remap = true }
+				)
+				vim.keymap.set(
+					"i",
+					"<c-k>",
+					"<cmd>LspOverloadsSignature<CR>",
+					{ buffer = args.buf, desc = "Show signature help", remap = true }
+				)
 			end
 		end
-
-		-- Buffer local mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local map = function(modes, keys, func, desc)
-			vim.keymap.set(modes, keys, func, { buffer = args.buf, desc = desc })
-		end
-
-		-- Navigation
-		map("n", "gr", vim.lsp.buf.references, "Show LSP references")
-		map("n", "gD", vim.lsp.buf.declaration, "Go to LSP declaration")
-
-		-- Diagnostics and documentations
-		-- map("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
-		map("n", "<leader>lf", vim.diagnostic.open_float, "Show line diagnostics")
-		-- map("n", "<leader>sh", vim.lsp.buf.signature_help, "Show signature help")
-		-- map("i", "<c-k>", vim.lsp.buf.signature_help, "Show signature Help")
-		map("n", "<leader>sh", "<cmd>LspOverloadsSignature<CR>", "Show signature help")
-		map("i", "<c-k>", "<cmd>LspOverloadsSignature<CR>", "Show signature Help")
-
-		-- LSP actions
-		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions")
-		map("n", "<leader>rn", vim.lsp.buf.rename, "[LSP] Rename")
-		map("n", "<leader>rS", ":LspRestart<CR>", "Restart LSP")
-		map("n", "<leader>rs", ":Roslyn restart<CR>", "Restart Roslyn LSP")
-		map("n", "<leader>rt", ":Roslyn target<CR>", "Select solution file with Roslyn LSP")
-
-		-- workspace
-		map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder")
-		map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder")
-		map("n", "<leader>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, "List workspace folders")
 	end,
 })
 
