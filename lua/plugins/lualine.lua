@@ -149,7 +149,7 @@ return {
 							modified = " ",
 							removed = " ",
 						},
-						fmt = trunc(0, 0, 60, true),
+						fmt = trunc(80, 0, 60, true),
 						separator = "",
 					},
 					{
@@ -166,31 +166,31 @@ return {
 						lazy_status.updates,
 						cond = lazy_status.has_updates,
 						-- color = { fg = '#3d59a1' },
-						fmt = trunc(0, 0, 160, true), -- hide when window is < 100 columns
+						fmt = trunc(0, 0, 100, true), -- hide when window is < 100 columns
 						separator = "",
 					},
 					-- require("util.lualine").cmp_source("supermaven", "󰰣"),
 					{
 						lsp_status_all,
-						fmt = trunc(0, 8, 140, false),
+						fmt = trunc(0, 8, 80, false),
 						separator = "",
 					},
 					{
 						encoding_only_if_not_utf8,
-						fmt = trunc(0, 0, 140, true), -- hide when window is < 80 columns
+						fmt = trunc(0, 0, 80, true), -- hide when window is < 80 columns
 						separator = "",
 					},
 					{
 						fileformat_only_if_not_unix,
-						fmt = trunc(0, 0, 140, true), -- hide when window is < 80 columns
+						fmt = trunc(0, 0, 80, true), -- hide when window is < 80 columns
 						separator = "",
 					},
 				},
 				lualine_y = {
-					{ "progress", fmt = trunc(0, 0, 40, true) },
+					{ "progress" },
 				},
 				lualine_z = {
-					{ "location", fmt = trunc(0, 0, 80, true) },
+					{ "location" },
 				},
 			},
 			inactive_sections = {
