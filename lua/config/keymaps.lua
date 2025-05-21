@@ -1,12 +1,17 @@
+-- Remove new default LSP keymaps
+vim.keymap.del("n", "grn")
+vim.keymap.del("n", "gra")
+vim.keymap.del("n", "grr")
+vim.keymap.del("n", "gri")
+vim.keymap.del("n", "gO")
+vim.keymap.del("i", "<C-s>")
+
 local map = vim.keymap.set
 
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "General clear highlights" })
 
-map("n", "<leader>ln", "<cmd>set nu!<CR>", { desc = "Toggle line number" })
-map("n", "<leader>lrn", "<cmd>set rnu!<CR>", { desc = "Toggle relative number" })
-
 -- File mappings
-map("n", "<C-s>", "<cmd>w<CR>", { desc = "File save" })
+map("n", "<C-s>", "<cmd>w<CR>", { desc = "Save File" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File copy whole" })
 
 -- Move Lines
@@ -20,11 +25,6 @@ map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 -- Copy and paste clipboard
 map({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to clipboard" })
 map("n", "<leader>Y", '"+Y', { desc = "Copy to clipboard" })
-map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete to void register" })
-
--- Buffer navigation
-map("n", "[b", ":bp!<CR>", { desc = "Previous buffer" })
-map("n", "]b", ":bn!<CR>", { desc = "Next buffer" })
 
 -- Window splitting
 map("n", "<leader>sx", ":split<Return><C-w>w", { desc = "[Window] Horisontal Split" })
