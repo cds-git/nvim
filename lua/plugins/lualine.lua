@@ -120,7 +120,7 @@ return {
 				lualine_c = {
 					{
 						"branch",
-						fmt = trunc(150, 17, 65),
+						fmt = trunc(200, 25, 100),
 						separator = "/",
 					},
 					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
