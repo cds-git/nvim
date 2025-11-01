@@ -29,6 +29,7 @@ return {
 				"stylua",
 				"prettierd",
 				"shfmt",
+                "xmlformatter",
 				-- debuggers
 				"netcoredbg",
 				-- linters
